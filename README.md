@@ -17,42 +17,42 @@ All methods that access the API can throw exceptions. If the API request fails f
 - Create an Auth Object and pass in the information from the API
 
 ```php
-    $auth_config = array(
-        'client_id'         => '',
-        'client_secret'     => '',
-        'redirect_uri'      => ''
-    );
+$auth_config = array(
+    'client_id'         => '',
+    'client_secret'     => '',
+    'redirect_uri'      => ''
+);
 
-    $auth = new SeeClickFix\Auth( $auth_config );
+$auth = new SeeClickFix\Auth( $auth_config );
 ```
 
 - Then you have to get the user to authorize your app 
 
 ```php
-    $auth->authorize();
+$auth->authorize();
 ```
 
 - This will redirect the user to the SeeClickFix authorization page. After authorization SeeClickFix will redirect the user to the url in `$auth_config['redirect_uri']` with a code that you will need to obtain an access token
 
 ```php
-    $_SESSION['seeclickfix_access_token'] = $auth->getAccessToken( $_GET['code'] );
+$_SESSION['seeclickfix_access_token'] = $auth->getAccessToken( $_GET['code'] );
 ```
 
 - Then use the access token in your code
 
 ```php
-    $seeclickfix = new SeeClickFix\SeeClickFix;
-    $seeclickfix->setAccessToken( $_SESSION['seeclickfix_access_token'] );
-    $current_user = $seeclickfix->getCurrentUser();
+$seeclickfix = new SeeClickFix\SeeClickFix;
+$seeclickfix->setAccessToken( $_SESSION['seeclickfix_access_token'] );
+$current_user = $seeclickfix->getCurrentUser();
 ```
 
 ##Basic Usage
 
 ```php
-    $seeclickfix = new SeeClickFix\SeeClickFix( $_SESSION['seeclickfix_access_token'] );
-    $user = $seeclickfix->getUser( $user_id );
-    $location = $seeclickfix->getLocation( 3001881 );
-    $current_user = $seeclickfix->getCurrentUser();
+$seeclickfix = new SeeClickFix\SeeClickFix( $_SESSION['seeclickfix_access_token'] );
+$user = $seeclickfix->getUser( $user_id );
+$location = $seeclickfix->getLocation( 3001881 );
+$current_user = $seeclickfix->getCurrentUser();
 ```
 
 ##Current User
@@ -60,7 +60,7 @@ All methods that access the API can throw exceptions. If the API request fails f
 The current user object will give you the currently logged in user
 
 ```php
-    $current_user = $seeclickfix->getCurrentUser();
+$current_user = $seeclickfix->getCurrentUser();
 ```
 
 With this object you can:
@@ -68,7 +68,7 @@ With this object you can:
 - obtain the user's feed, liked media, follow requests
 
 ```php
-    $feed = $current_user->getFeed();
+$feed = $current_user->getFeed();
 ```
 
 You can also perform all the functions you could on a normal user
@@ -78,11 +78,11 @@ You can also perform all the functions you could on a normal user
 When making a call to a method that returns more than one of something (e.g. getIssues(), searchUsers() ), a collection object will be returned.  Collections can be iterated, counted, and accessed like arrays.
 
 ```php
-    $user = $seeclickfix->getLocation( $id );
-    $issues = $user->getIssues();
-    foreach( $issues as $issue ) {
-         ...
-    }
+$user = $seeclickfix->getLocation( $id );
+$issues = $user->getIssues();
+foreach( $issues as $issue ) {
+     ...
+}
 ```
 
 The collection object will sometimes have an identifier to the "next page" that can be used to obtain the next page of the collection.
@@ -92,15 +92,15 @@ To obtain the identifier for the next page you call `getNext()` on the collectio
 For example:
 
 ```php
-    $user = $seeclickfix->getLocation( $id );
-    $issues = $user->getIssues();
-    $next_page = $issues->getNext();
+$user = $seeclickfix->getLocation( $id );
+$issues = $user->getIssues();
+$next_page = $issues->getNext();
 ```
 
 Example usage:
 
 ```php
-    <a href="user_media.php?max_id=<?php echo $next_page ?>">
+<a href="user_media.php?max_id=<?php echo $next_page ?>">
 ```
 
 ##Searching
@@ -108,7 +108,7 @@ Example usage:
 You can search for locations, media, tags, and users.
 
 ```php
-    $locations = $seeclickfix->searchLocations( $lat, $lng );
-    $media = $seeclickfix->searchIssues( $lat, $lng );
-    $users = $seeclickfix->searchUsers( 'username' );
+$locations = $seeclickfix->searchLocations( $lat, $lng );
+$media = $seeclickfix->searchIssues( $lat, $lng );
+$users = $seeclickfix->searchUsers( 'username' );
 ```
