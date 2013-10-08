@@ -113,7 +113,9 @@ abstract class CollectionAbstract implements \IteratorAggregate, \ArrayAccess, \
     protected function convertData( $object ) {
         $this->data = array_map(
             function( $c ) use( $object ) {
-                return new $object( $c );
+                if( !isset($c->moderated) || $c->moderated === false) {
+                    return new $object( $c );
+                }
             },
             $this->data
         );

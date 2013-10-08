@@ -1,7 +1,5 @@
 <?php namespace SeeClickFixSDK;
 
-use \SeeClickFixSDK\Collection\MediaCollection;
-
 /**
  * Location class
  *
@@ -11,47 +9,23 @@ use \SeeClickFixSDK\Collection\MediaCollection;
 class Location extends \SeeClickFixSDK\Core\BaseObjectAbstract {
 
     /**
-     * Get location ID
+     * Get location slug
      *
      * @return string|null
      * @access public
      */
-    public function getId() {
-        return isset( $this->data->id ) ? $this->data->id : null;
+    public function getSlug() {
+        return isset( $this->data->url_name ) ? $this->data->url_name : null;
     }
 
     /**
-     * Get location name
+     * Get location type (city, neighborhood...)
      *
      * @return string|null
      * @access public
      */
-    public function getName() {
-        return isset( $this->data->name ) ? $this->data->name : null;
-    }
-
-    /**
-     * Get location longitude
-     *
-     * Get the longitude of the location
-     *
-     * @return string|null
-     * @access public
-     */
-    public function getLat() {
-        return isset( $this->data->latitude ) && is_float( $this->data->latitude ) ? $this->data->latitude : null;
-    }
-
-    /**
-     * Get location latitude
-     *
-     * Get the latitude of the location
-     *
-     * @return string|null
-     * @access public
-     */
-    public function getLng() {
-        return isset( $this->data->longitude ) && is_float( $this->data->longitude ) ? $this->data->longitude : null;
+    public function getType() {
+        return isset( $this->data->data_classification ) ? $this->data->data_classification : null;
     }
 
 }

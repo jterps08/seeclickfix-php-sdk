@@ -125,7 +125,7 @@ class Proxy {
     public function getLocation( $id ) {
         $response = $this->apiCall(
             'get',
-            sprintf( '%s/locations/%s', $this->api_url, $id )
+            sprintf( '%s/places/%s', $this->api_url, $id )
         );
         return $response->getRawData();
     }
@@ -156,10 +156,117 @@ class Proxy {
     public function searchLocations( array $params = null ) {
         $response = $this->apiCall(
             'get',
-            $this->api_url . '/locations/search',
+            $this->api_url . '/places',
             $params
         );
         return $response->getRawData();
+    }
+
+    /**
+     * Get current user
+     *
+     * @return StdClass Returns the current user data
+     * @access public
+     */
+    public function getCurrentUser() {
+        $response = $this->apiCall(
+            'get',
+            sprintf( '%s/profile', $this->api_url )
+        );
+        return $response->getRawData();
+    }
+
+    /**
+     * Get issue
+     *
+     * @param string $id Issue ID
+     * @return StdClass Returns the issue data
+     * @access public
+     */
+    public function getIssue( $id ) {
+        $response = $this->apiCall(
+            'get',
+            sprintf( '%s/issues/%s?details=true', $this->api_url, $id )
+        );
+        return $response->getRawData();
+    }
+
+    /**
+     * Add a like form the current user on an issue
+     *
+     * @param string $issue_id Issue ID to like
+     * @return StdClass Returns the status
+     * @access public
+     */
+    public function addIssueVote( $issue_id ) {
+        return $this->apiCall(
+            'post',
+            $this->api_url . sprintf( '/issues/%s/vote', $issue_id )
+        );
+    }
+
+    /**
+     * Current user follow the issue
+     *
+     * @param string $issue_id Issue ID to like
+     * @return StdClass Returns the status
+     * @access public
+     */
+    public function followIssue( $issue_id ) {
+        $response = $this->apiCall(
+            'post',
+            $this->api_url . sprintf( '/issues/%s/follow', $issue_id )
+        );
+        dd($response);
+    }
+
+    /**
+     * Get issue comments
+     *
+     * @param string $id Issue ID
+     * @return StdClass Returns the issue data
+     * @access public
+     */
+    public function getIssueComments( $id ) {
+        $response = $this->apiCall(
+            'get',
+            sprintf( '%s/issues/%s/comments', $this->api_url, $id )
+        );
+        return $response->getRawData();
+    }
+
+    /**
+     * Add a comment to an issue
+     *
+     * @param string $issue_id Issue ID
+     * @param string $comment Comment text
+     * @param string $type Comment type [comments, close, open, acknowledge]
+     * @return StdClass Returns the status
+     * @access public
+     */
+    public function addIssueComment( $issue_id, $comment, $type = 'comments' ) {
+        $response = $this->apiCall(
+            'post',
+            $this->api_url . sprintf( '/issues/%s/%s', $issue_id, $type ),
+            array( 'comment' => $comment )
+        );
+    }
+
+    /**
+     * Flag site content
+     *
+     * @param string $id Content ID
+     * @param string $text Comment text
+     * @param string $type Comment type [issues, comments]
+     * @return StdClass Returns the status
+     * @access public
+     */
+    public function addContentFlag( $id, $text, $type ) {
+        $response = $this->apiCall(
+            'post',
+            $this->api_url . sprintf( '/%s/%s/flag', $type, $id ),
+            array( 'text' => $text )
+        );
     }
 
     /**

@@ -20,7 +20,7 @@ class ApiResponse {
     /**
      * Constructor
      *
-     * @param $raw_response Response from teh API
+     * @param $raw_response Response from the API
      * @access public
      */
     public function __construct( $raw_response ){
@@ -46,7 +46,7 @@ class ApiResponse {
         return
             $this->response instanceof \StdClass &&
             !isset( $this->response->meta->error_type ) &&
-            !isset( $this->response->error_type );
+            !isset( $this->response->errors );
     }
     /**
      * Is Valid API Response
@@ -89,8 +89,25 @@ class ApiResponse {
      * @access public
      */
     public function getErrorMessage() {
-        if ( isset( $this->response->error_message ) ) {
-            return $this->response->error_message;
+        if ( isset( $this->response->errors ) ) {
+            // This is horrible, talk to devs about fixing the response
+            $error = '';
+            foreach($this->response->errors as $key=>$value) {
+
+                if(is_array($value)) {
+                    $error .= $key.' ';
+                    foreach($value as $e) {
+                        $error .= ' '.$e;
+                    }
+                }
+                else {
+                    $error .= $value.' ';
+                }
+            }
+            return $error;
+        }
+        if( isset( $this->response->error_description ) ) {
+            return $this->response->error_description;
         }
         if( isset( $this->response->meta->error_message ) ) {
             return $this->response->meta->error_message;

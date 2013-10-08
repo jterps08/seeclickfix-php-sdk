@@ -10,12 +10,12 @@ class ApiException extends \Exception {
     /**
      * Invalid APU URI
      */
-    const TYPE_NOT_ALLOWED  = 'APINotAllowedError';
+    const TYPE_NOT_ALLOWED = 'APINotAllowedError';
 
     /**
      * Authorization error
      */
-    const TYPE_OAUTH        = 'OAuthAccessTokenException';
+    const TYPE_OAUTH = 'OAuthAccessTokenException';
 
     /**
      * Type of error
