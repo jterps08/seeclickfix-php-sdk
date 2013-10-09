@@ -262,12 +262,12 @@ class Proxy {
     public function addIssueComment( $issue_id, $comment, array $params = null )
     {
         $params = array_merge([
-            'comment' => 'comments'
+            'status' => '',
+            'comment' => $comment
         ], (array)$params );
-
         $response = $this->apiCall(
             'post',
-            $this->api_url . sprintf( '/issues/%s/%s', $issue_id, $type ),
+            $this->api_url . sprintf( '/issues/%s/%s', $issue_id, $params['status'] ),
             $params
         );
     }

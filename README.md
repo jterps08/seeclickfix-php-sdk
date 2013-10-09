@@ -140,11 +140,11 @@ $current_user->followIssue(504309);
 $current_user->addIssueFlag(464574, 'This issue is not appropriate.');
 ```
 
-- changing the status of an issue. Comment types available `close`, `open`, and `acknowledge`. The default comment is `comments`.
+- changing the status of an issue. Comment types available `close`, `open`, and `acknowledge`.
 
 ```php
 $current_user->addIssueComment(464574, 'This issue was fixed.', [
-    'comment' => 'close'
+    'status' => 'close'
 ]);
 ```
 

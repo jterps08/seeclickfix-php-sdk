@@ -13,6 +13,16 @@ use \SeeClickFixSDK\Place;
  */
 class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     /**
+     * The user that's been retrieved and is used
+     * for authentication. Authentication methods
+     * are available for finding the user to set
+     * here.
+     *
+     * @var \SeeClickFixSDK\User
+     */
+    protected $current_user;
+
+    /**
      * Configuration array
      *
      * Contains a default client and proxy
@@ -223,8 +233,12 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      */
     public function getCurrentUser()
     {
-        $current_user = new CurrentUser( $this->proxy->getCurrentUser(), $this->proxy );
-        return $current_user;
+        if (is_null($this->current_user))
+        {
+            $this->current_user = new CurrentUser( $this->proxy->getCurrentUser(), $this->proxy );
+        }
+
+        return $this->current_user;
     }
 
 }
