@@ -2,14 +2,14 @@
 
 use \SeeClickFixSDK\Comment;
 use \SeeClickFixSDK\User;
-use \SeeClickFixSDK\Location;
+use \SeeClickFixSDK\Place;
 use \SeeClickFixSDK\Collection\CommentCollection;
 use \SeeClickFixSDK\Collection\UserCollection;
 
 /**
  * Issue class
  *
- * @see \SeeClickFixSDK\SeeClickFixSDK->getLocation()
+ * @see \SeeClickFixSDK\SeeClickFixSDK->getPlace()
  */
 class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
 
@@ -28,11 +28,11 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     protected $comments = null;
 
     /**
-     * Location cache
+     * Place cache
      *
-     * @var \SeeClickFixSDK\Location
+     * @var \SeeClickFixSDK\Place
      */
-    protected $location = null;
+    protected $place = null;
 
     /**
      * Get the ID
@@ -40,7 +40,8 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * @return string
      * @access public
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->data->id;
      }
 
@@ -50,7 +51,8 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * @return string
      * @access public
      */
-    public function getThumbnail($size = 'full') {
+    public function getThumbnail($size = 'full')
+    {
         if($size === 'square') {
             return $this->data->media->image_square_100x100;
         }
@@ -64,7 +66,8 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * @return string
      * @access public
      */
-    public function getCreatedTime( $format = null ) {
+    public function getCreatedTime( $format = null )
+    {
         if ( $format ) {
             $date = date( $format, $this->data->created_at );
         }
@@ -80,7 +83,8 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * @return \SeeClickFixSDK\User
      * @access public
      */
-    public function getReporter() {
+    public function getReporter()
+    {
         if ( !$this->user ) {
             $this->user = new User( $this->data->reporter, $this->proxy );
         }
@@ -95,7 +99,8 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * @return \SeeClickFixSDK\CommentCollection
      * @access public
      */
-    public function getComments() {
+    public function getComments()
+    {
         if ( $this->comments_count > 0 && !$this->comments) {
             $this->comments = new CommentCollection( $this->proxy->getIssueComments( $this->getId() ), $this->proxy );
         }
@@ -108,39 +113,42 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * @return int
      * @access public
      */
-    public function getVoteCount() {
+    public function getVoteCount()
+    {
         return (int)$this->data->rating;
     }
 
     /**
-     * Get location status
+     * Get place status
      *
-     * Will return true if any location data is associated with the issue
+     * Will return true if any place data is associated with the issue
      *
      * @return bool
      * @access public
      */
-    public function hasLocation() {
+    public function hasPlace()
+    {
         return isset( $this->data->lat ) && isset( $this->data->lng );
     }
 
     /**
-     * Get the location
+     * Get the place
      *
-     * Returns the location associated with the issue or null if no location data is available
+     * Returns the place associated with the issue or null if no place data is available
      *
      * @param bool $force_fetch Don't use the cache
-     * @return \SeeClickFixSDK\Location|null
+     * @return \SeeClickFixSDK\Place|null
      * @access public
      */
-    public function getLocation( $force_fetch = false ) {
-        if ( !$this->hasLocation() ) {
+    public function getPlace( $force_fetch = false )
+    {
+        if ( !$this->hasPlace() ) {
             return null;
         }
-        if ( !$this->location || (bool)$force_fetch ) {
-            $this->location = new Location( $this->data->location, isset( $this->data->location->id ) ? $this->proxy : null );
+        if ( !$this->place || (bool)$force_fetch ) {
+            $this->place = new Place( $this->data->location, isset( $this->data->location->id ) ? $this->proxy : null );
         }
-        return $this->location;
+        return $this->place;
     }
 
     /**
@@ -151,7 +159,8 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * @return string
      * @access public
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getThumbnail()->url;
     }
 

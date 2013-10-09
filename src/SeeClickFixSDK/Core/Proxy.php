@@ -116,13 +116,13 @@ class Proxy {
     }
 
     /**
-     * Get location
+     * Get place
      *
-     * @param string $id Location ID
-     * @return StdClass Returns the location data
+     * @param string $id Place ID
+     * @return StdClass Returns the place data
      * @access public
      */
-    public function getLocation( $id ) {
+    public function getPlace( $id ) {
         $response = $this->apiCall(
             'get',
             sprintf( '%s/places/%s', $this->api_url, $id )
@@ -140,20 +140,20 @@ class Proxy {
     public function searchUsers( array $params = null ) {
         $response = $this->apiCall(
             'get',
-            $this->api_url . '/users/search',
+            $this->api_url . '/users',
             $params
         );
         return $response->getRawData();
     }
 
     /**
-     * Search locations
+     * Search places
      *
      * @param array $params Search params
-     * @return array Returns an array of location data
+     * @return array Returns an array of place data
      * @access public
      */
-    public function searchLocations( array $params = null ) {
+    public function searchPlaces( array $params = null ) {
         $response = $this->apiCall(
             'get',
             $this->api_url . '/places',
@@ -172,6 +172,22 @@ class Proxy {
         $response = $this->apiCall(
             'get',
             sprintf( '%s/profile', $this->api_url )
+        );
+        return $response->getRawData();
+    }
+
+    /**
+     * Get list of issues in a place
+     *
+     * @param array $params Search params
+     * @return StdClass Returns the issue object
+     * @access public
+     */
+    public function getIssues( array $params = null ) {
+        $response = $this->apiCall(
+            'get',
+            $this->api_url . '/issues',
+            $params
         );
         return $response->getRawData();
     }
@@ -213,11 +229,10 @@ class Proxy {
      * @access public
      */
     public function followIssue( $issue_id ) {
-        $response = $this->apiCall(
+        return $this->apiCall(
             'post',
             $this->api_url . sprintf( '/issues/%s/follow', $issue_id )
         );
-        dd($response);
     }
 
     /**
@@ -307,6 +322,5 @@ class Proxy {
         }
         return $response;
     }
-
 
 }

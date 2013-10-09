@@ -36,9 +36,8 @@ abstract class BaseObjectAbstract {
     /**
      * Get the API ID
      *
-     * Some API objects don't have IDs (tags, some locations )
+     * Some API objects don't have IDs
      * Those objects define their own getId() methods to return a psuedo ID
-     * Tags = tag name, ID-less locations return null
      *
      * @return string Returns the ID
      * @access public

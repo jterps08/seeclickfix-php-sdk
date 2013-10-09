@@ -32,6 +32,14 @@ class ApiResponse {
             $this->response->meta->code = 555;
             $this->response->meta->error_message = 'Unknown error';
         }
+
+        // Stupid API, I didn't want to do this
+        if( isset( $this->response->errors ) ) {
+            $errors = (array) $this->response->errors;
+            if (empty($errors)) {
+                unset( $this->response->errors );
+            }
+        }
     }
 
     /**

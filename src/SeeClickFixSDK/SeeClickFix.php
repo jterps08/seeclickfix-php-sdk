@@ -1,16 +1,17 @@
 <?php namespace SeeClickFixSDK;
 
 use \SeeClickFixSDK\Collection\UserCollection;
+use \SeeClickFixSDK\Collection\PlaceCollection;
+use \SeeClickFixSDK\Collection\IssueCollection;
 use \SeeClickFixSDK\User;
-use \SeeClickFixSDK\Location;
+use \SeeClickFixSDK\Place;
 
 /**
  * SeeClickFix!
  *
  * All objects are created through this object
  */
-class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract
-{
+class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     /**
      * Configuration array
      *
@@ -40,7 +41,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract
      * @param \SeeClickFixSDK\Net\ClientInterface $client Client object used to connect to the API
      * @access public
      */
-    public function __construct( array $config = null, \SeeClickFixSDK\Net\ClientInterface $client = null ) {
+    public function __construct( array $config = null, \SeeClickFixSDK\Net\ClientInterface $client = null )
+    {
         $this->config = (array) $config + $this->config;
         $this->proxy = new \SeeClickFixSDK\Core\Proxy( $client ? $client : new \SeeClickFixSDK\Net\CurlClient );
     }
@@ -52,7 +54,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract
      * @return string Returns the access token
      * @access public
      */
-    public function getAuthorizationUri() {
+    public function getAuthorizationUri()
+    {
         return sprintf('http://test.seeclickfix.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code',
             $this->config['client_id'],
             $this->config['redirect_uri']
@@ -69,7 +72,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract
      * @throws \SeeClickFixSDK\Core\ApiException
      * @access public
      */
-    public function getAccessToken( $code ) {
+    public function getAccessToken( $code )
+    {
         $post_data = array(
             'client_id'         => $this->config['client_id'],
             'client_secret'     => $this->config['client_secret'],
@@ -92,7 +96,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract
      * @param string $access_token
      * @access public
      */
-    public function setAccessToken( $access_token ) {
+    public function setAccessToken( $access_token )
+    {
         $this->proxy->setAccessToken( $access_token );
     }
 
@@ -104,7 +109,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract
      * @param string $client_id Client ID
      * @access public
      */
-    public function setClientID( $client_id ) {
+    public function setClientID( $client_id )
+    {
         $this->proxy->setClientId( $client_id );
     }
 
@@ -115,8 +121,25 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract
      *
      * @access public
      */
-    public function logout() {
+    public function logout()
+    {
         $this->proxy->logout();
+    }
+
+    /**
+     * Get a list of users
+     *
+     * Retrieve a list of users
+     *
+     * @param array $params Search params
+     * @return \SeeClickFixSDK\User
+     * @access public
+     */
+    public function getUsers( array $params = null )
+    {
+        $params = (array)$params;
+        $user_collection = new UserCollection( $this->proxy->searchUsers( $params ), $this->proxy );
+        return $user_collection;
     }
 
     /**
@@ -128,33 +151,23 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract
      * @return \SeeClickFixSDK\User
      * @access public
      */
-    public function getUser( $id ) {
+    public function getUser( $id )
+    {
         $user = new User( $this->proxy->getUser( $id ), $this->proxy );
         return $user;
     }
 
     /**
-     * Get user by Username
+     * Get issues this place
      *
-     * Retrieve a user given their username
-     *
-     * @param string $username Username of the user to retrieve
-     * @return \SeeClickFixSDK\User
+     * @param array $params Search params
      * @access public
-     * @throws \SeeClickFixSDK\ApiException
      */
-    public function getUserByUsername( $username ) {
-        $user = $this->searchUsers( $username, array( 'count' => 1 ) )->getItem( 0 );
-        if ( $user ) {
-            try {
-                return $this->getUser( $user->getId() );
-            } catch( \SeeClickFixSDK\Core\ApiException $e ) {
-                if ( $e->getType() == $e::TYPE_NOT_ALLOWED ) {
-                    return $user;
-                }
-            }
-        }
-        throw new \SeeClickFixSDK\Core\ApiException( 'username not found', 400, 'InvalidUsername' );
+    public function getIssues( array $params = null )
+    {
+        $params = (array)$params;
+        $issues = new IssueCollection( $this->proxy->getIssues( $params ), $this->proxy );
+        return $issues;
     }
 
     /**
@@ -163,26 +176,41 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract
      * Retreive an issue object given it's ID
      *
      * @param int $id ID of the media to retrieve
-     * @return \Instagram\Media
+     * @return \SeeClickFixSDK\Issue
      * @access public
      */
-    public function getIssue( $id ) {
+    public function getIssue( $id )
+    {
         $issue = new Issue( $this->proxy->getIssue( $id ), $this->proxy );
         return $issue;
     }
 
     /**
-     * Get location
+     * Get issues this place
      *
-     * Retreive a location given it's ID
-     *
-     * @param int $id ID of the location to retrieve
-     * @return \SeeClickFixSDK\Location
+     * @param array $params Search params
      * @access public
      */
-    public function getLocation( $id ) {
-        $location = new Location( $this->proxy->getLocation( $id ), $this->proxy );
-        return $location;
+    public function getPlaces( array $params = null )
+    {
+        $params = (array)$params;
+        $issues = new PlaceCollection( $this->proxy->searchPlaces( $params ), $this->proxy );
+        return $issues;
+    }
+
+    /**
+     * Get place
+     *
+     * Retreive a place given it's ID
+     *
+     * @param int $id ID of the place to retrieve
+     * @return \SeeClickFixSDK\Place
+     * @access public
+     */
+    public function getPlace( $id )
+    {
+        $place = new Place( $this->proxy->getPlace( $id ), $this->proxy );
+        return $place;
     }
 
     /**
@@ -193,26 +221,10 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract
      * @return \SeeClickFixSDK\CurrentUser
      * @access public
      */
-    public function getCurrentUser() {
+    public function getCurrentUser()
+    {
         $current_user = new CurrentUser( $this->proxy->getCurrentUser(), $this->proxy );
         return $current_user;
-    }
-
-    /**
-     * Search users
-     *
-     * Search the users by username
-     *
-     * @param string $query Search query
-     * @param array $params Optional params to pass to the endpoint
-     * @return \SeeClickFixSDK\Collection\UserCollection
-     * @access public
-     */
-    public function searchUsers( $query, array $params = null ) {
-        $params = (array)$params;
-        $params['q'] = $query;
-        $user_collection = new UserCollection( $this->proxy->searchUsers( $params ), $this->proxy );
-        return $user_collection;
     }
 
 }
