@@ -56,14 +56,14 @@ class CurrentUser extends \SeeClickFixSDK\User {
      *
      * @param \SeeClickFixSDK\Issues|string Issues to add a comment to
      * @param string $text Comment text
-     * @param string $type Comment type [comments, close, open, acknowledge]
+     * @param array $params Optional parameters
      * @access public
      */
-    public function addIssueComment( $issue, $text, $type = 'comments' ) {
+    public function addIssueComment( $issue, $text, array $params = null ) {
         if ( $issue instanceof \SeeClickFixSDK\Issues ) {
             $issue = $issue->getId();
         }
-        $this->proxy->addIssueComment( $issue, $text, $type );
+        $this->proxy->addIssueComment( $issue, $text, $params );
     }
 
     /**

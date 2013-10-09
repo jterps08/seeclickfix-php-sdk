@@ -8,15 +8,15 @@ The API comes with a cURL client (`SeeClickFix\Net\CurlClient`) to access the Se
  
 - [The API](#the-api)
 - [Authentication](#authentication)
-- [API Calls](#api-calls)
- - [Users](#usage)
- - [Current User](#basic-usage)
- - [Current User](#basic-usage)
- - [Current User](#basic-usage)
- - [Current User](#basic-usage)
- - [Current User](#basic-usage)
+- [Basic API Calls](#basic-api-calls)
+ - [Places List](#places-list)
+ - [Single Place](#single-place)
+ - [Issues List](#issues-list)
+ - [Single Issue](#single-issue)
+ - [Users](#users)
+ - [Single User](#single-user)
+ - [Current User](#current-user)
 - [Collections](#collections)
-- [Searching](#searching)
 
 ##The API
 
@@ -60,7 +60,7 @@ $seeclickfix->setAccessToken( $_SESSION['seeclickfix_access_token'] );
 $current_user = $seeclickfix->getCurrentUser();
 ```
 
-##API Calls
+##Basic API Calls
 
 This is a quick referance of the resources that make up the official SeeClickFix API v2. [Full API Doc](http://dev.seeclickfix.com).
 
@@ -129,14 +129,35 @@ The current user object will give you the currently logged in user. [View API Do
 $current_user = $seeclickfix->getCurrentUser();
 ```
 
-##Collections
+With this object you can:
 
-When making a call to a method that returns more than one of something (e.g. getIssues(), searchUsers() ), a collection object will be returned.  Collections can be iterated, counted, and accessed like arrays.
+- comment on an issue, vote on an issue, comment on an issue, change the status of an issue, follow an issue, and flag an issue.
 
 ```php
-$place = $seeclickfix->getPlace( $id );
-$issues = $place->getIssues();
-foreach( $issues as $issue ) {
+$current_user->addIssueComment(504561, 'This is a comment from the API using PHP!!!');
+$current_user->addIssueVote(504309);
+$current_user->followIssue(504309);
+$current_user->addIssueFlag(464574, 'This issue is not appropriate.');
+```
+
+- changing the status of an issue. Comment types available `close`, `open`, and `acknowledge`. The default comment is `comments`.
+
+```php
+$current_user->addIssueComment(464574, 'This issue was fixed.', [
+    'comment' => 'close'
+]);
+```
+
+You can also perform all the functions you could on a normal user
+
+##Collections
+
+When making a call to a method that returns more than one of something (e.g. getComments() ), a collection object will be returned. Collections can be iterated, counted, and accessed like arrays.
+
+```php
+$issue = SeeClickFix::getIssue(504561);
+$comments = $issue->getComments();
+foreach( $comments as $comment ) {
      ...
 }
 ```
@@ -148,9 +169,9 @@ To obtain the identifier for the next page you call `getNext()` on the collectio
 For example:
 
 ```php
-$user = $seeclickfix->getPlace( $id );
-$issues = $user->getIssues();
-$next_page = $issues->getNext();
+$issue = SeeClickFix::getIssue(504561);
+$comments = $issue->getComments();
+$next_page = $comments->getNext();
 ```
 
 Example usage:
@@ -159,12 +180,4 @@ Example usage:
 <a href="user_media.php?max_id=<?php echo $next_page ?>">
 ```
 
-##Searching
 
-You can search for places and users.
-
-```php
-$places = $seeclickfix->searchPlaces( $lat, $lng );
-$issues = $seeclickfix->searchIssues( $lat, $lng );
-$users = $seeclickfix->searchUsers( 'username' );
-```

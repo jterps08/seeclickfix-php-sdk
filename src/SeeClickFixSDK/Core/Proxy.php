@@ -255,15 +255,20 @@ class Proxy {
      *
      * @param string $issue_id Issue ID
      * @param string $comment Comment text
-     * @param string $type Comment type [comments, close, open, acknowledge]
+     * @param array $params Optional parameters
      * @return StdClass Returns the status
      * @access public
      */
-    public function addIssueComment( $issue_id, $comment, $type = 'comments' ) {
+    public function addIssueComment( $issue_id, $comment, array $params = null )
+    {
+        $params = array_merge([
+            'comment' => 'comments'
+        ], (array)$params );
+
         $response = $this->apiCall(
             'post',
             $this->api_url . sprintf( '/issues/%s/%s', $issue_id, $type ),
-            array( 'comment' => $comment )
+            $params
         );
     }
 
