@@ -2,7 +2,7 @@
 
 This is a PHP 5.3+ API wrapper for the [SeeClickFix API](http://dev.seeclickfix.com/)
 
-The API comes with a cURL client (`SeeClickFix\Net\CurlClient`) to access the SeeClickFix API.  You can create your own client, it just has to implement `SeeClickFix\Net\ClientInterface`.
+The API comes with a cURL client (`SeeClickFixSDK\Net\CurlClient`) to access the SeeClickFix API.  You can create your own client, it just has to implement `SeeClickFixSDK\Net\ClientInterface`.
 
 ---
  
@@ -20,7 +20,7 @@ The API comes with a cURL client (`SeeClickFix\Net\CurlClient`) to access the Se
 
 ##The API
 
-All methods that access the API can throw exceptions. If the API request fails for any reason other than an expired/missing access token an exception of type `\SeeClickFix\Core\ApiException` will be thrown.  If the API request fails because of an expired/missing access token an exception of type `\SeeClickFix\Core\ApiAuthException` will be thrown. You can use this to redirect to your authorization page.
+All methods that access the API can throw exceptions. If the API request fails for any reason other than an expired/missing access token an exception of type `\SeeClickFixSDK\Core\ApiException` will be thrown.  If the API request fails because of an expired/missing access token an exception of type `\SeeClickFixSDK\Core\ApiAuthException` will be thrown. You can use this to redirect to your authorization page.
 
 ##Authentication
 
