@@ -1,9 +1,9 @@
 {
-    "name": "seeclickfix/seeclickfix-php-sdk",
+    "name": "torann/seeclickfix-php-sdk",
     "description": "SeeClickFix PHP SDK",
     "keywords": ["seeclickfix", "sdk"],
     "type": "library",
-    "homepage": "https://github.com/seeclickfix/seeclickfix-php-sdk",
+    "homepage": "https://github.com/torann/seeclickfix-php-sdk",
     "license": "Apache2",
     "authors": [
         {
