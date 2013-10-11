@@ -1,4 +1,4 @@
-#PHP SeeClickFix API
+#PHP SeeClickFix API - Alpha
 
 This is a PHP 5.3+ API wrapper for the [SeeClickFix API](http://dev.seeclickfix.com/)
 
