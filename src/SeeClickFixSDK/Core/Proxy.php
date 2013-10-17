@@ -40,7 +40,15 @@ class Proxy {
      * @var string
      * @access protected
      */
-    protected $api_url = 'http://test.seeclickfix.com/api/v2';
+    protected $api_url = 'http://%sseeclickfix.com/api/v2';
+
+    /**
+     * oAuth Token URL
+     *
+     * @var string
+     * @access protected
+     */
+    protected $token_url = 'http://%sseeclickfix.com/oauth/token';
 
     /**
      * Constructor
@@ -49,9 +57,13 @@ class Proxy {
      * @param string $access_token The access token from authentication
      * @access public
      */
-    public function __construct( \SeeClickFixSDK\Net\ClientInterface $client, $access_token = null ) {
+    public function __construct( \SeeClickFixSDK\Net\ClientInterface $client, $access_token = null, $sandbox = false ) {
         $this->client = $client;
         $this->access_token = $access_token;
+
+        // Sandbox mode?
+        $this->api_url = sprintf( $this->api_url, ($sandbox ? 'test.' : '') );
+        $this->token_url = sprintf( $this->token_url, ($sandbox ? 'test.' : '') );
     }
 
     /**
@@ -63,7 +75,7 @@ class Proxy {
     public function getAccessToken( array $data ) {
         $response = $this->apiCall(
             'post',
-            'http://test.seeclickfix.com/oauth/token',
+            $this->token_url,
             $data
         );
         return $response;
@@ -97,7 +109,7 @@ class Proxy {
      * @access public
      */
     public function logout() {
-        $this->client->get( 'http://test.seeclickfix.com/api/v2/logout/', array() );
+        $this->client->get( $this->api_url . '/logout/', array() );
     }
 
     /**

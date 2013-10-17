@@ -184,7 +184,7 @@ abstract class CollectionAbstract implements \IteratorAggregate, \ArrayAccess, \
         return $this->data[$offset];
     }
     public function offsetSet( $offset, $value ) {
-        trigger_error( "You can't set collection data");
+        //trigger_error( "You can't set collection data");
     }
     public function offsetUnset( $offset ) {
         trigger_error( "You can't unset collection data" );

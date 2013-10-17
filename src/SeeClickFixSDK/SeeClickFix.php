@@ -41,7 +41,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
         'client_secret' => '',
         'redirect_uri'  => '',
         'grant_type'    => 'authorization_code',
-        'display'       => ''
+        'display'       => '',
+        'sandbox'       => false
     );
 
     /**
@@ -54,7 +55,7 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     public function __construct( array $config = null, \SeeClickFixSDK\Net\ClientInterface $client = null )
     {
         $this->config = (array) $config + $this->config;
-        $this->proxy = new \SeeClickFixSDK\Core\Proxy( $client ? $client : new \SeeClickFixSDK\Net\CurlClient );
+        $this->proxy = new \SeeClickFixSDK\Core\Proxy( $client ? $client : new \SeeClickFixSDK\Net\CurlClient, null, $this->config['sandbox']);
     }
 
     /**
@@ -66,7 +67,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      */
     public function getAuthorizationUri()
     {
-        return sprintf('http://test.seeclickfix.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code',
+        return sprintf('http://%sseeclickfix.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code',
+            ($this->config['sandbox'] ? 'test.' : ''),
             $this->config['client_id'],
             $this->config['redirect_uri']
         );
