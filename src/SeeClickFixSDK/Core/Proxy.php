@@ -54,12 +54,12 @@ class Proxy {
      * Constructor
      *
      * @param \SeeClickFixSDK\Net\ClientInterface $client HTTP Client
-     * @param string $access_token The access token from authentication
+     * @param string $client_id Client Id given by SeeClickFix
      * @access public
      */
-    public function __construct( \SeeClickFixSDK\Net\ClientInterface $client, $access_token = null, $sandbox = false ) {
+    public function __construct( \SeeClickFixSDK\Net\ClientInterface $client, $client_id = null, $sandbox = false ) {
         $this->client = $client;
-        $this->access_token = $access_token;
+        $this->client_id = $client_id;
 
         // Sandbox mode?
         $this->api_url = sprintf( $this->api_url, ($sandbox ? 'test.' : '') );
@@ -274,9 +274,10 @@ class Proxy {
     public function addIssueComment( $issue_id, $comment, array $params = null )
     {
         $params = array_merge([
-            'status' => '',
+            'status' => 'comments',
             'comment' => $comment
         ], (array)$params );
+
         $response = $this->apiCall(
             'post',
             $this->api_url . sprintf( '/issues/%s/%s', $issue_id, $params['status'] ),

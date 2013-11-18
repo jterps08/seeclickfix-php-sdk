@@ -55,7 +55,7 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     public function __construct( array $config = null, \SeeClickFixSDK\Net\ClientInterface $client = null )
     {
         $this->config = (array) $config + $this->config;
-        $this->proxy = new \SeeClickFixSDK\Core\Proxy( $client ? $client : new \SeeClickFixSDK\Net\CurlClient, null, $this->config['sandbox']);
+        $this->proxy = new \SeeClickFixSDK\Core\Proxy( $client ? $client : new \SeeClickFixSDK\Net\CurlClient, $this->config['client_id'], $this->config['sandbox']);
     }
 
     /**
