@@ -80,4 +80,13 @@ class CurrentUser extends \SeeClickFixSDK\User {
         $this->proxy->addContentFlag( $issue, $text, 'issues' );
     }
 
+    /**
+     * Add a new issue
+     *
+     * @param array $params Required parameters
+     * @access public
+     */
+    public function createIssue( array $params ) {
+        return $this->proxy->createIssue( $params );
+    }
 }

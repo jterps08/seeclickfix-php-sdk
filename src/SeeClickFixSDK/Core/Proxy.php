@@ -220,6 +220,22 @@ class Proxy {
     }
 
     /**
+     * Create an issue
+     *
+     * @param string $params Required parameters
+     * @return StdClass Returns metadata
+     * @access public
+     */
+    public function createIssue( $params ) {
+        $response = $this->apiCall(
+            'post',
+            $this->api_url . '/issues',
+            $params
+        );
+        return $response->getRawData();
+    }
+
+    /**
      * Add a like form the current user on an issue
      *
      * @param string $issue_id Issue ID to like
