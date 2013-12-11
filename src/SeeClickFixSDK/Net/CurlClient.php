@@ -19,7 +19,7 @@ class CurlClient implements ClientInterface {
      *
      * Initializes the curl object
      */
-    function __construct(){
+    function __construct() {
         $this->initializeCurl();
     }
 
@@ -31,7 +31,7 @@ class CurlClient implements ClientInterface {
      * @return \SeeClickFixSDK\Net\Response
      * @access public
      */
-    public function get( $url, array $data = null ){
+    public function get( $url, array $data = null ) {
         curl_setopt( $this->curl, CURLOPT_CUSTOMREQUEST, 'GET' );
         curl_setopt( $this->curl, CURLOPT_URL, sprintf( "%s?%s", $url, http_build_query( $data ) ) );
         return $this->fetch();
@@ -48,7 +48,12 @@ class CurlClient implements ClientInterface {
     public function post( $url, array $data = null ) {
         curl_setopt( $this->curl, CURLOPT_CUSTOMREQUEST, 'POST' );
         curl_setopt( $this->curl, CURLOPT_URL, $url );
-        curl_setopt( $this->curl, CURLOPT_POSTFIELDS, http_build_query( $data ) );
+        curl_setopt( $this->curl, CURLOPT_POST, 1);
+        curl_setopt( $this->curl, CURLOPT_POSTFIELDS, $this->http_build_query_for_curl($data) );
+
+        // curl_setopt( $this->curl, CURLOPT_RETURNTRANSFER, true );
+        // curl_setopt( $this->curl, CURLOPT_HTTPHEADER, array("Content-Type: application/json; charset=utf-8","Accept:application/json, text/javascript, */*; q=0.01"));
+        // curl_setopt( $this->curl, CURLOPT_POSTFIELDS, json_encode( $data ) );
         return $this->fetch();
     }
 
@@ -60,7 +65,7 @@ class CurlClient implements ClientInterface {
      * @return \SeeClickFixSDK\Net\Response
      * @access public
      */
-    public function put( $url, array $data = null  ){
+    public function put( $url, array $data = null  ) {
         curl_setopt( $this->curl, CURLOPT_CUSTOMREQUEST, 'PUT' );
     }
 
@@ -72,7 +77,7 @@ class CurlClient implements ClientInterface {
      * @return \SeeClickFixSDK\Net\Response
      * @access public
      */
-    public function delete( $url, array $data = null  ){
+    public function delete( $url, array $data = null  ) {
         curl_setopt( $this->curl, CURLOPT_URL, sprintf( "%s?%s", $url, http_build_query( $data ) ) );
         curl_setopt( $this->curl, CURLOPT_CUSTOMREQUEST, 'DELETE' );
         return $this->fetch();
@@ -89,6 +94,7 @@ class CurlClient implements ClientInterface {
         $this->curl = curl_init();
         curl_setopt( $this->curl, CURLOPT_RETURNTRANSFER, true );
         curl_setopt( $this->curl, CURLOPT_SSL_VERIFYPEER, false );
+        //curl_setopt( $this->curl, CURLOPT_HTTPHEADER, array('User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:19.0) Gecko/20100101 Firefox/19.0') );
     }
 
     /**
@@ -109,4 +115,27 @@ class CurlClient implements ClientInterface {
         return $raw_response;
     }
 
+    /**
+     * Handle nested arrays when posting
+     *
+     * @return array
+     * @access protected
+     */
+    protected function http_build_query_for_curl(array $var, $prefix = false) {
+        $return = array();
+
+        foreach($var as $idx => $value){
+                if(is_scalar($value)){
+                    if($prefix){
+                        $return[$prefix.'['.$idx.']'] = $value;
+                    } else {
+                        $return[$idx] = $value;
+                    }
+                } else {
+                    $return = array_merge($return, $this->http_build_query_for_curl($value, $prefix ? $prefix.'['.$idx.']' : $idx));
+                }
+        }
+
+        return $return;
+    }
 }

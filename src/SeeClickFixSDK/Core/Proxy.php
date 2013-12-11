@@ -339,6 +339,10 @@ class Proxy {
             ) + (array) $params
         );
 
+        // if($url !== 'http://test.seeclickfix.com/api/v2/profile') {
+        //     dd($raw_response);
+        // }
+
         $response = new \SeeClickFixSDK\Net\ApiResponse( $raw_response );
 
         if ( !$response->isValid() ) {
