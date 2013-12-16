@@ -42,7 +42,7 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      */
     public function getId()
     {
-        return $this->data->id;
+        return isset($this->data->id) ? $this->data->id : null;
      }
 
     /**
@@ -54,9 +54,17 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     public function getThumbnail($size = 'full')
     {
         if($size === 'square') {
-            return $this->data->media->image_square_100x100;
+            $image = $this->data->media->image_square_100x100;
         }
-        return $this->data->media->image_full;
+        $image = $this->data->media->image_full;
+
+        // TODO: API BUG. Bug reported (4292)
+        if($image && strpos($image, 'http') !== 0) {
+            $image = 'http://%sseeclickfix.com' . $image;
+            $image = sprintf( $image, (\Config::get('laravel-seeclickfix-api::sandbox_mode') ? 'test.' : '') );
+        }
+
+        return $image;
     }
 
     /**

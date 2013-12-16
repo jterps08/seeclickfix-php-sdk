@@ -63,7 +63,8 @@ class CurrentUser extends \SeeClickFixSDK\User {
         if ( $issue instanceof \SeeClickFixSDK\Issues ) {
             $issue = $issue->getId();
         }
-        $this->proxy->addIssueComment( $issue, $text, $params );
+
+        return new Comment( $this->proxy->addIssueComment( $issue, $text, $params ), $this->proxy );
     }
 
     /**
@@ -84,9 +85,30 @@ class CurrentUser extends \SeeClickFixSDK\User {
      * Add a new issue
      *
      * @param array $params Required parameters
+     * @return \SeeClickFixSDK\Issue
      * @access public
      */
     public function createIssue( array $params ) {
-        return $this->proxy->createIssue( $params );
+        $response = $this->proxy->createIssue( $params );
+
+        if ( ! isset($response->metadata) )
+        {
+            // TODO: This is shit guys, work on fixing this stuff in the API...I mean come on!!!
+            $error = '';
+            foreach($response as $key=>$value) {
+                if(is_array($value)) {
+                    $error .= $key.' ';
+                    foreach($value as $e) {
+                        $error .= ' '.$e;
+                    }
+                }
+                else {
+                    $error .= $value.' ';
+                }
+            }
+            return array('errors' => $error);
+        }
+
+        return new Issue( $response->issues[0], $this->proxy );
     }
 }

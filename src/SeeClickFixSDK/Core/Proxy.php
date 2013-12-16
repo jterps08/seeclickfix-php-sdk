@@ -228,7 +228,7 @@ class Proxy {
      */
     public function createIssue( $params ) {
         $response = $this->apiCall(
-            'post',
+            'get',
             $this->api_url . '/issues',
             $params
         );
@@ -294,7 +294,7 @@ class Proxy {
             'comment' => $comment
         ], (array)$params );
 
-        $response = $this->apiCall(
+        return $this->apiCall(
             'post',
             $this->api_url . sprintf( '/issues/%s/%s', $issue_id, $params['status'] ),
             $params

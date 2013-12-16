@@ -55,6 +55,25 @@ class Comment extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     }
 
     /**
+     * Get the thumbnail
+     *
+     * @return string
+     * @access public
+     */
+    public function getThumbnail($size = 'full')
+    {
+        // Is there even an image?
+        if( ! isset($this->data->media)) {
+            return null;
+        }
+
+        if($size === 'square') {
+            return $this->data->media->image_square_100x100;
+        }
+        return $this->data->media->image_full;
+    }
+
+    /**
      * Magic toString method
      *
      * Return the comment text

@@ -124,16 +124,18 @@ class CurlClient implements ClientInterface {
     protected function http_build_query_for_curl(array $var, $prefix = false) {
         $return = array();
 
-        foreach($var as $idx => $value){
-                if(is_scalar($value)){
-                    if($prefix){
-                        $return[$prefix.'['.$idx.']'] = $value;
-                    } else {
-                        $return[$idx] = $value;
-                    }
-                } else {
-                    $return = array_merge($return, $this->http_build_query_for_curl($value, $prefix ? $prefix.'['.$idx.']' : $idx));
+        foreach($var as $idx => $value) {
+            if(is_scalar($value)) {
+                if($prefix) {
+                    $return[$prefix.'['.$idx.']'] = $value;
                 }
+                else {
+                    $return[$idx] = $value;
+                }
+            }
+            else if(gettype($value) === 'array') {
+                $return = array_merge($return, $this->http_build_query_for_curl($value, $prefix ? $prefix.'['.$idx.']' : $idx));
+            }
         }
 
         return $return;
