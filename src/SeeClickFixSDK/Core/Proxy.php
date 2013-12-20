@@ -228,7 +228,7 @@ class Proxy {
      */
     public function createIssue( $params ) {
         $response = $this->apiCall(
-            'get',
+            'post',
             $this->api_url . '/issues',
             $params
         );
