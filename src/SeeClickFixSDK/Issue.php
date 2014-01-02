@@ -53,6 +53,10 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      */
     public function getThumbnail($size = 'full')
     {
+        if( !isset($this->data->media) ) {
+            return '';
+        }
+
         if($size === 'square') {
             $image = $this->data->media->image_square_100x100;
         }
@@ -172,4 +176,25 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
         return $this->getThumbnail()->url;
     }
 
+    /**
+     * Returns the issue as an array
+     *
+     * @return array
+     * @access public
+     */
+    public function to_array() {
+        return array(
+            "id"            => $this->getId(),
+            "status"        => $this->status,
+            "summary"       => $this->summary,
+            "description"   => $this->description,
+            "rating"        => $this->rating,
+            "lat"           => $this->lat,
+            "lng"           => $this->lng,
+            "address"       => $this->address,
+            "thumbnail"     => $this->getThumbnail(),
+            "created_at"    => $this->created_at,
+            "updated_at"    => $this->updated_at
+        );
+    }
 }

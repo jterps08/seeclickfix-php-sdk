@@ -91,7 +91,7 @@ class CurrentUser extends \SeeClickFixSDK\User {
     public function createIssue( array $params ) {
         $response = $this->proxy->createIssue( $params );
 
-        if ( ! isset($response->metadata) )
+        if ( ! isset($response->id) )
         {
             // TODO: This is shit guys, work on fixing this stuff in the API...I mean come on!!!
             $error = '';
@@ -109,6 +109,6 @@ class CurrentUser extends \SeeClickFixSDK\User {
             return array('errors' => $error);
         }
 
-        return new Issue( $response->issues[0], $this->proxy );
+        return new Issue( $response, $this->proxy );
     }
 }
