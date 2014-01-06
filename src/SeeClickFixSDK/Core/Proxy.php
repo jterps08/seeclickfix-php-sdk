@@ -220,6 +220,37 @@ class Proxy {
     }
 
     /**
+     * Get location's request types
+     *
+     * @param string $point Required location parameters
+     * @return object
+     * @access public
+     */
+    public function getLocationRequestTypes( $point ) {
+        $response = $this->apiCall(
+            'get',
+            $this->api_url . '/issues/new',
+            $point
+        );
+        return $response->getRawData();
+    }
+
+    /**
+     * Get issue
+     *
+     * @param string $point Required location parameters
+     * @return object
+     * @access public
+     */
+    public function getRequestType( $id ) {
+        $response = $this->apiCall(
+            'get',
+            $this->api_url . '/request_types/' . $id
+        );
+        return $response->getRawData();
+    }
+
+    /**
      * Create an issue
      *
      * @param string $params Required parameters

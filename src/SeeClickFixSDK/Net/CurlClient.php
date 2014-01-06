@@ -49,7 +49,9 @@ class CurlClient implements ClientInterface {
         curl_setopt( $this->curl, CURLOPT_CUSTOMREQUEST, 'POST' );
         curl_setopt( $this->curl, CURLOPT_URL, $url );
         curl_setopt( $this->curl, CURLOPT_POST, 1);
-        curl_setopt( $this->curl, CURLOPT_POSTFIELDS, $data );
+        curl_setopt( $this->curl, CURLOPT_RETURNTRANSFER, true );
+        curl_setopt( $this->curl, CURLOPT_HTTPHEADER, array("Content-Type: application/json; charset=utf-8","Accept:application/json, text/javascript, */*; q=0.01"));
+        curl_setopt( $this->curl, CURLOPT_POSTFIELDS, json_encode( $data ) );
         return $this->fetch();
     }
 

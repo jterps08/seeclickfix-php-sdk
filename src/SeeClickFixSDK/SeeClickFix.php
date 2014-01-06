@@ -3,6 +3,7 @@
 use \SeeClickFixSDK\Collection\UserCollection;
 use \SeeClickFixSDK\Collection\PlaceCollection;
 use \SeeClickFixSDK\Collection\IssueCollection;
+use \SeeClickFixSDK\Collection\RequestTypeCollection;
 use \SeeClickFixSDK\User;
 use \SeeClickFixSDK\Place;
 
@@ -195,6 +196,34 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     {
         $issue = new Issue( $this->proxy->getIssue( $id ), $this->proxy );
         return $issue;
+    }
+
+    /**
+     * Get location request types
+     *
+     * Retreive request types based on location
+     *
+     * @param string $point Location parameters
+     * @return object
+     * @access public
+     */
+    public function getLocationRequestTypes( $point, $filter = null )
+    {
+        return new RequestTypeCollection($this->proxy->getLocationRequestTypes( $point ), $this->proxy, $filter );
+    }
+
+    /**
+     * Get request type
+     *
+     * Retreive request type
+     *
+     * @param string $id Location parameters
+     * @return object
+     * @access public
+     */
+    public function getRequestType( $id )
+    {
+        return new RequestType($this->proxy->getRequestType( $id ), $this->proxy );
     }
 
     /**
