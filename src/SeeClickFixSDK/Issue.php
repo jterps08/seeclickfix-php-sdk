@@ -182,7 +182,7 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * @return array
      * @access public
      */
-    public function to_array() {
+    public function toArray() {
         return array(
             "id"            => $this->getId(),
             "status"        => $this->status,
