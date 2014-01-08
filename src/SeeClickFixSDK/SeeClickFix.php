@@ -50,13 +50,12 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Constructor
      *
      * @param array $config Configuration array
-     * @param \SeeClickFixSDK\Net\ClientInterface $client Client object used to connect to the API
      * @access public
      */
-    public function __construct( array $config = null, \SeeClickFixSDK\Net\ClientInterface $client = null )
+    public function __construct( array $config = null )
     {
         $this->config = (array) $config + $this->config;
-        $this->proxy = new \SeeClickFixSDK\Core\Proxy( $client ? $client : new \SeeClickFixSDK\Net\CurlClient, $this->config['client_id'], $this->config['sandbox']);
+        $this->proxy = new \SeeClickFixSDK\Core\Proxy($this->config['client_id'], $this->config['sandbox']);
     }
 
     /**

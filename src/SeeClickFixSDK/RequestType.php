@@ -16,9 +16,10 @@ class RequestType extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     public function toArray()
     {
         return array(
-            'title' => $this->title,
-            'organization' => $this->organization,
-            'url' => $this->url
+            'id'            => $this->id,
+            'title'         => $this->title,
+            'organization'  => $this->organization,
+            'url'           => $this->url
         );
     }
 

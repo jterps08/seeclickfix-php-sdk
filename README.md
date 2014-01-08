@@ -2,8 +2,6 @@
 
 This is a PHP 5.3+ API wrapper for the SeeClickFix API v2.
 
-The API comes with a cURL client (`SeeClickFixSDK\Net\CurlClient`) to access the SeeClickFix API.  You can create your own client, it just has to implement `SeeClickFixSDK\Net\ClientInterface`.
-
 [PHP SeeClickFix API Wiki](https://github.com/SeeClickFix/seeclickfix-php-sdk/wiki) - get help setting up API calls and authentication.
 
 

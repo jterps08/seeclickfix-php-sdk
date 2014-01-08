@@ -106,7 +106,7 @@ class CurrentUser extends \SeeClickFixSDK\User {
                     $error .= $value.' ';
                 }
             }
-            return array('errors' => $error);
+            return (object) array('errors' => $error);
         }
 
         return new Issue( $response, $this->proxy );

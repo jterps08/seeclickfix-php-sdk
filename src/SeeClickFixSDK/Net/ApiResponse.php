@@ -23,7 +23,7 @@ class ApiResponse {
      * @param $raw_response Response from the API
      * @access public
      */
-    public function __construct( $raw_response ){
+    public function __construct( $raw_response ) {
         $this->response = json_decode( $raw_response );
         if ( !$this->isValidApiResponse() ) {
             $this->response = new \StdClass;

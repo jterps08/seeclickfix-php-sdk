@@ -13,7 +13,7 @@ class Proxy {
     /**
      * HTTP Client
      *
-     * @var \SeeClickFixSDK\Net\ClientInterface
+     * @var \SeeClickFixSDK\Net\GuzzleClient
      * @access protected
      */
     protected $client;
@@ -53,12 +53,11 @@ class Proxy {
     /**
      * Constructor
      *
-     * @param \SeeClickFixSDK\Net\ClientInterface $client HTTP Client
      * @param string $client_id Client Id given by SeeClickFix
      * @access public
      */
-    public function __construct( \SeeClickFixSDK\Net\ClientInterface $client, $client_id = null, $sandbox = false ) {
-        $this->client = $client;
+    public function __construct($client_id = null, $sandbox = false ) {
+        $this->client = new \SeeClickFixSDK\Net\GuzzleClient;
         $this->client_id = $client_id;
 
         // Sandbox mode?
@@ -370,9 +369,9 @@ class Proxy {
             ) + (array) $params
         );
 
-        // if($url !== 'http://test.seeclickfix.com/api/v2/profile') {
-        //     dd($raw_response);
-        // }
+        if($url === 'http://httpbin.org/post') {
+            dd($raw_response);
+        }
 
         $response = new \SeeClickFixSDK\Net\ApiResponse( $raw_response );
 
