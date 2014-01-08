@@ -23,7 +23,8 @@ class ApiResponse {
      * @param $raw_response Response from the API
      * @access public
      */
-    public function __construct( $raw_response ) {
+    public function __construct( $raw_response )
+    {
         $this->response = json_decode( $raw_response );
         if ( !$this->isValidApiResponse() ) {
             $this->response = new \StdClass;
@@ -50,7 +51,8 @@ class ApiResponse {
      * @return boolean
      * @access public
      */
-    public function isValid() {
+    public function isValid()
+    {
         return
             $this->response instanceof \StdClass &&
             !isset( $this->response->meta->error_type ) &&
@@ -64,7 +66,8 @@ class ApiResponse {
      * @return boolean
      * @access public
      */
-    public function isValidApiResponse() {
+    public function isValidApiResponse()
+    {
         return $this->response instanceof \StdClass;
     }
 
@@ -74,7 +77,8 @@ class ApiResponse {
      * @return mixed Return the response's data or null
      * @access public
      */
-    public function getData() {
+    public function getData()
+    {
         return isset( $this->response->data ) ? $this->response->data : null;
     }
 
@@ -84,11 +88,10 @@ class ApiResponse {
      * @return mixed Returns the response or null
      * @access public
      */
-    public function getRawData() {
+    public function getRawData()
+    {
         return isset( $this->response ) ? $this->response : null;
     }
-
-
 
     /**
      * Get the response's error message
@@ -96,7 +99,8 @@ class ApiResponse {
      * @return mixed Returns the error message or null
      * @access public
      */
-    public function getErrorMessage() {
+    public function getErrorMessage()
+    {
         if ( isset( $this->response->errors ) ) {
             // This is horrible, talk to devs about fixing the response
             $error = '';
@@ -129,7 +133,8 @@ class ApiResponse {
      * @return mixed Returns the error code or null
      * @access public
      */
-    public function getErrorCode() {
+    public function getErrorCode()
+    {
         if ( isset( $this->response->code ) ) {
             return $this->response->code;
         }
@@ -145,7 +150,8 @@ class ApiResponse {
      * @return mixed Returns the error type or null
      * @access public
      */
-    public function getErrorType() {
+    public function getErrorType()
+    {
         if ( isset( $this->response->error_type ) ) {
             return $this->response->error_type;
         }
@@ -161,7 +167,8 @@ class ApiResponse {
      * @return string Return the json encoded response
      * @access public
      */
-    public function __toString() {
+    public function __toString()
+    {
         return json_encode( $this->response );
     }
 

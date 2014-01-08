@@ -369,10 +369,6 @@ class Proxy {
             ) + (array) $params
         );
 
-        if($url === 'http://httpbin.org/post') {
-            dd($raw_response);
-        }
-
         $response = new \SeeClickFixSDK\Net\ApiResponse( $raw_response );
 
         if ( !$response->isValid() ) {
