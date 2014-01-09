@@ -26,7 +26,8 @@ class CurrentUser extends \SeeClickFixSDK\User {
      * @param \SeeClickFixSDK\Issues|string $issues Issues to add a like to from the current user
      * @access public
      */
-    public function addIssueVote( $issue ) {
+    public function addIssueVote( $issue )
+    {
         if ( $issue instanceof \SeeClickFixSDK\Issues ) {
             $issue = $issue->getId();
         }
@@ -43,7 +44,8 @@ class CurrentUser extends \SeeClickFixSDK\User {
      * @param \SeeClickFixSDK\Issues|string $issues Issues to add a like to from the current user
      * @access public
      */
-    public function followIssue( $issue ) {
+    public function followIssue( $issue )
+    {
         if ( $issue instanceof \SeeClickFixSDK\Issues ) {
             $issue = $issue->getId();
         }
@@ -59,7 +61,8 @@ class CurrentUser extends \SeeClickFixSDK\User {
      * @param array $params Optional parameters
      * @access public
      */
-    public function addIssueComment( $issue, $text, array $params = null ) {
+    public function addIssueComment( $issue, $text, array $params = null )
+    {
         if ( $issue instanceof \SeeClickFixSDK\Issues ) {
             $issue = $issue->getId();
         }
@@ -74,7 +77,8 @@ class CurrentUser extends \SeeClickFixSDK\User {
      * @param string $text Comment text
      * @access public
      */
-    public function addIssueFlag( $issue, $text ) {
+    public function addIssueFlag( $issue, $text )
+    {
         if ( $issue instanceof \SeeClickFixSDK\Issues ) {
             $issue = $issue->getId();
         }
@@ -88,7 +92,8 @@ class CurrentUser extends \SeeClickFixSDK\User {
      * @return \SeeClickFixSDK\Issue
      * @access public
      */
-    public function createIssue( array $params ) {
+    public function createIssue( array $params )
+    {
         $response = $this->proxy->createIssue( $params );
 
         if ( ! isset($response->id) )

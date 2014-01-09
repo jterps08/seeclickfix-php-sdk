@@ -52,6 +52,8 @@ class GuzzleClient {
      */
     public function post( $url, array $data = null )
     {
+        $data = $this->http_build_query_for_curl($data);
+
         $request = $this->guzzle->post($url, array(), $data);
         $response = $request->send();
 
@@ -88,6 +90,33 @@ class GuzzleClient {
         $response = $request->send();
 
         return $response->getBody();
+    }
+
+    /**
+     * Handle nested arrays when posting
+     *
+     * @return array
+     * @access protected
+     */
+    protected function http_build_query_for_curl(array $var, $prefix = false)
+    {
+        $return = array();
+
+        foreach($var as $idx => $value) {
+            if(is_scalar($value)) {
+                if($prefix) {
+                    $return[$prefix.'['.$idx.']'] = $value;
+                }
+                else {
+                    $return[$idx] = $value;
+                }
+            }
+            else if(gettype($value) === 'array') {
+                $return = array_merge($return, $this->http_build_query_for_curl($value, $prefix ? $prefix.'['.$idx.']' : $idx));
+            }
+        }
+
+        return $return;
     }
 
 }

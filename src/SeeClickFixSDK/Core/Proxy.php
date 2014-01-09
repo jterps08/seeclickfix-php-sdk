@@ -56,7 +56,8 @@ class Proxy {
      * @param string $client_id Client Id given by SeeClickFix
      * @access public
      */
-    public function __construct($client_id = null, $sandbox = false ) {
+    public function __construct($client_id = null, $sandbox = false )
+    {
         $this->client = new \SeeClickFixSDK\Net\GuzzleClient;
         $this->client_id = $client_id;
 
@@ -71,7 +72,8 @@ class Proxy {
      * @param array $data Auth data
      * @return string Returns the access token
      */
-    public function getAccessToken( array $data ) {
+    public function getAccessToken( array $data )
+    {
         $response = $this->apiCall(
             'post',
             $this->token_url,
@@ -86,7 +88,8 @@ class Proxy {
      * @param string $access_token The access token
      * @access public
      */
-    public function setAccessToken( $access_token ) {
+    public function setAccessToken( $access_token )
+    {
         $this->access_token = $access_token;
     }
 
@@ -107,7 +110,8 @@ class Proxy {
      *
      * @access public
      */
-    public function logout() {
+    public function logout()
+    {
         $this->client->get( $this->api_url . '/logout/', array() );
     }
 
@@ -118,7 +122,8 @@ class Proxy {
      * @return StdClass Returns the user data
      * @access public
      */
-    public function getUser( $id ) {
+    public function getUser( $id )
+    {
         $response = $this->apiCall(
             'get',
             sprintf( '%s/users/%s', $this->api_url, $id )
@@ -133,7 +138,8 @@ class Proxy {
      * @return StdClass Returns the place data
      * @access public
      */
-    public function getPlace( $id ) {
+    public function getPlace( $id )
+    {
         $response = $this->apiCall(
             'get',
             sprintf( '%s/places/%s', $this->api_url, $id )
@@ -148,7 +154,8 @@ class Proxy {
      * @return array Returns an array of user data
      * @access public
      */
-    public function searchUsers( array $params = null ) {
+    public function searchUsers( array $params = null )
+    {
         $response = $this->apiCall(
             'get',
             $this->api_url . '/users',
@@ -164,7 +171,8 @@ class Proxy {
      * @return array Returns an array of place data
      * @access public
      */
-    public function searchPlaces( array $params = null ) {
+    public function searchPlaces( array $params = null )
+    {
         $response = $this->apiCall(
             'get',
             $this->api_url . '/places',
@@ -179,7 +187,8 @@ class Proxy {
      * @return StdClass Returns the current user data
      * @access public
      */
-    public function getCurrentUser() {
+    public function getCurrentUser()
+    {
         $response = $this->apiCall(
             'get',
             sprintf( '%s/profile', $this->api_url )
@@ -194,7 +203,8 @@ class Proxy {
      * @return StdClass Returns the issue object
      * @access public
      */
-    public function getIssues( array $params = null ) {
+    public function getIssues( array $params = null )
+    {
         $response = $this->apiCall(
             'get',
             $this->api_url . '/issues',
@@ -210,7 +220,8 @@ class Proxy {
      * @return StdClass Returns the issue data
      * @access public
      */
-    public function getIssue( $id ) {
+    public function getIssue( $id )
+    {
         $response = $this->apiCall(
             'get',
             sprintf( '%s/issues/%s?details=true', $this->api_url, $id )
@@ -225,7 +236,8 @@ class Proxy {
      * @return object
      * @access public
      */
-    public function getLocationRequestTypes( $point ) {
+    public function getLocationRequestTypes( $point )
+    {
         $response = $this->apiCall(
             'get',
             $this->api_url . '/issues/new',
@@ -241,7 +253,8 @@ class Proxy {
      * @return object
      * @access public
      */
-    public function getRequestType( $id ) {
+    public function getRequestType( $id )
+    {
         $response = $this->apiCall(
             'get',
             $this->api_url . '/request_types/' . $id
@@ -256,7 +269,8 @@ class Proxy {
      * @return StdClass Returns metadata
      * @access public
      */
-    public function createIssue( $params ) {
+    public function createIssue( $params )
+    {
         $response = $this->apiCall(
             'post',
             $this->api_url . '/issues',
@@ -272,7 +286,8 @@ class Proxy {
      * @return StdClass Returns the status
      * @access public
      */
-    public function addIssueVote( $issue_id ) {
+    public function addIssueVote( $issue_id )
+    {
         return $this->apiCall(
             'post',
             $this->api_url . sprintf( '/issues/%s/vote', $issue_id )
@@ -286,7 +301,8 @@ class Proxy {
      * @return StdClass Returns the status
      * @access public
      */
-    public function followIssue( $issue_id ) {
+    public function followIssue( $issue_id )
+    {
         return $this->apiCall(
             'post',
             $this->api_url . sprintf( '/issues/%s/follow', $issue_id )
@@ -300,7 +316,8 @@ class Proxy {
      * @return StdClass Returns the issue data
      * @access public
      */
-    public function getIssueComments( $id ) {
+    public function getIssueComments( $id )
+    {
         $response = $this->apiCall(
             'get',
             sprintf( '%s/issues/%s/comments', $this->api_url, $id )
@@ -340,7 +357,8 @@ class Proxy {
      * @return StdClass Returns the status
      * @access public
      */
-    public function addContentFlag( $id, $text, $type ) {
+    public function addContentFlag( $id, $text, $type )
+    {
         $response = $this->apiCall(
             'post',
             $this->api_url . sprintf( '/%s/%s/flag', $type, $id ),
@@ -359,8 +377,8 @@ class Proxy {
      * @return  \SeeClickFixSDK\Net\ApiResponse Returns teh API response
      * @access private
      */
-    private function apiCall( $method, $url, array $params = null, $throw_exception = true ){
-
+    private function apiCall( $method, $url, array $params = null, $throw_exception = true )
+    {
         $raw_response = $this->client->$method(
             $url,
             array(
