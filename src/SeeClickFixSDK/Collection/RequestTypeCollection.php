@@ -22,25 +22,22 @@ class RequestTypeCollection extends \SeeClickFixSDK\Collection\CollectionAbstrac
      * @param \SeeClickFixSDK\Core\Proxy $proxy Object's proxy
      * @access public
      */
-    public function __construct( $raw_data, \SeeClickFixSDK\Core\Proxy $proxy = null, $filter = '' ) {
-        if($filter) {
-            // Requesting URL
-            $url = 'http://%sseeclickfix.com/api/v2/request_types/';
-            $url = sprintf( $url, (\Config::get('laravel-seeclickfix-api::sandbox_mode') ? 'test.' : '') );
+    public function __construct( $raw_data, \SeeClickFixSDK\Core\Proxy $proxy = null, $filterString = null ) {
+        // Requesting URL
+        $url = 'http://%sseeclickfix.com/api/v2/request_types/';
+        $url = sprintf( $url, (\Config::get('laravel-seeclickfix-api::sandbox_mode') ? 'test.' : '') );
 
-            // Haystack it!
-            $filter = explode(',', $filter);
+        // Haystack it!
+        $filter = explode(',', $filterString);
 
-            // Filter out unused request types
-            foreach ($raw_data->request_types as $key=>$requestType)
-            {
-                $id = str_replace($url, '', $requestType->url);
-                if( in_array($id, $filter) ) {
-                    $raw_data->request_types[$key]->id = $id;
-                }
-                else {
-                    unset($raw_data->request_types[$key]);
-                }
+        // Filter out unused request types
+        foreach ($raw_data->request_types as $key=>$requestType)
+        {
+            $id = str_replace($url, '', $requestType->url);
+            $raw_data->request_types[$key]->id = $id;
+
+            if( $filterString && !in_array($id, $filter) ) {
+                unset($raw_data->request_types[$key]);
             }
         }
 
