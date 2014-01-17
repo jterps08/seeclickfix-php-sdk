@@ -13,7 +13,7 @@ class Proxy {
     /**
      * HTTP Client
      *
-     * @var \SeeClickFixSDK\Net\GuzzleClient
+     * @var \SeeClickFixSDK\Net\CurlClient
      * @access protected
      */
     protected $client;
@@ -58,7 +58,7 @@ class Proxy {
      */
     public function __construct($client_id = null, $sandbox = false )
     {
-        $this->client = new \SeeClickFixSDK\Net\GuzzleClient;
+        $this->client = new \SeeClickFixSDK\Net\CurlClient;
         $this->client_id = $client_id;
 
         // Sandbox mode?
@@ -127,6 +127,23 @@ class Proxy {
         $response = $this->apiCall(
             'get',
             sprintf( '%s/users/%s', $this->api_url, $id )
+        );
+        return $response->getRawData();
+    }
+
+    /**
+     * Create a user
+     *
+     * @param array $params Registration parameters
+     * @return StdClass Returns the user data
+     * @access public
+     */
+    public function createUser( array $params = null )
+    {
+        $response = $this->apiCall(
+            'post',
+            $this->api_url . '/users',
+            $params
         );
         return $response->getRawData();
     }
@@ -383,14 +400,16 @@ class Proxy {
             $url,
             array(
                 'access_token'  => $this->access_token,
-                'client_id'     => isset( $params['client_id'] ) ? $params['client_id'] : $this->client_id
+                'client_id'     => $this->client_id
             ) + (array) $params
         );
 
         $response = new \SeeClickFixSDK\Net\ApiResponse( $raw_response );
 
-        if ( !$response->isValid() ) {
-            if ( $throw_exception ) {
+        if ( !$response->isValid() )
+        {
+            if ( $throw_exception )
+            {
                 if ( $response->getErrorType() == 'OAuthAccessTokenException' ) {
                     throw new \SeeClickFixSDK\Core\ApiAuthException( $response->getErrorMessage(), $response->getErrorCode(), $response->getErrorType() );
                 }
@@ -402,6 +421,7 @@ class Proxy {
                 return false;
             }
         }
+
         return $response;
     }
 

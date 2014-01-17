@@ -79,24 +79,37 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * POSTs to the SeeClickFix API and obtains and access key
      *
-     * @param string $code Code supplied by SeeClickFix
+     * @param string $params Username/Password or Code
      * @return string Returns the access token
      * @throws \SeeClickFixSDK\Core\ApiException
      * @access public
      */
-    public function getAccessToken( $code )
+    public function getAccessToken( $params )
     {
         $post_data = array(
             'client_id'         => $this->config['client_id'],
             'client_secret'     => $this->config['client_secret'],
-            'grant_type'        => $this->config['grant_type'],
-            'redirect_uri'      => $this->config['redirect_uri'],
-            'code'              => $code
+            'grant_type'        => $this->config['grant_type'] ?: 'authorization_code'
         );
+
+        // What type of grant is it?
+        if($post_data['grant_type'] === 'password')
+        {
+            $post_data['username'] = $params['username'];
+            $post_data['password'] = $params['password'];
+        }
+        else {
+            $post_data['redirect_uri'] = $this->config['redirect_uri'];
+            $post_data['code']         = $params['code'];
+        }
+
         $response = $this->proxy->getAccessToken( $post_data );
-        if ( isset( $response->getRawData()->access_token ) ) {
+
+        if ( isset( $response->getRawData()->access_token ) )
+        {
             return $response->getRawData()->access_token;
         }
+
         throw new \SeeClickFixSDK\Core\ApiException( $response->getErrorMessage(), $response->getErrorCode(), $response->getErrorType() );
     }
 
@@ -166,6 +179,21 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     public function getUser( $id )
     {
         $user = new User( $this->proxy->getUser( $id ), $this->proxy );
+        return $user;
+    }
+
+    /**
+     * Create a user
+     *
+     * Register a user on SeeClickFix
+     *
+     * @param array $params Registration parameters
+     * @return \SeeClickFixSDK\User
+     * @access public
+     */
+    public function createUser( array $params = null )
+    {
+        $user = new User( $this->proxy->createUser( $params ), $this->proxy );
         return $user;
     }
 
