@@ -29,7 +29,7 @@ class User extends \SeeClickFixSDK\Core\BaseObjectAbstract {
         {
             if(is_array($value))
             {
-                $error .= $key.' ';
+                $error .= strpos($key, '.') ? '' : $key.' ';
                 foreach($value as $e) {
                     $error .= $e.' ';
                 }

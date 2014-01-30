@@ -60,12 +60,14 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
         if($size === 'square') {
             $image = $this->data->media->image_square_100x100;
         }
-        $image = $this->data->media->image_full;
+        else {
+            $image = $this->data->media->image_full;
+        }
 
         // TODO: API BUG. Bug reported (4292)
         if($image && strpos($image, 'http') !== 0) {
             $image = 'http://%sseeclickfix.com' . $image;
-            $image = sprintf( $image, (\Config::get('laravel-seeclickfix-api::sandbox_mode') ? 'test.' : '') );
+            $image = sprintf( $image, (\Config::get('laravel-seeclickfix-api::sandbox_mode') ? 'int.' : '') );
         }
 
         return $image;
@@ -185,7 +187,7 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     public function toArray() {
         return array(
             "id"            => $this->getId(),
-            "status"        => $this->status,
+            "status"        => strtolower($this->status),
             "summary"       => $this->summary,
             "description"   => $this->description,
             "rating"        => $this->rating,

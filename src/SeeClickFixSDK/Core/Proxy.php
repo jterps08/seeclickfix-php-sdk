@@ -62,8 +62,8 @@ class Proxy {
         $this->client_id = $client_id;
 
         // Sandbox mode?
-        $this->api_url = sprintf( $this->api_url, ($sandbox ? 'test.' : '') );
-        $this->token_url = sprintf( $this->token_url, ($sandbox ? 'test.' : '') );
+        $this->api_url = sprintf( $this->api_url, ($sandbox ? 'int.' : '') );
+        $this->token_url = sprintf( $this->token_url, ($sandbox ? 'int.' : '') );
     }
 
     /**

@@ -25,7 +25,7 @@ class RequestTypeCollection extends \SeeClickFixSDK\Collection\CollectionAbstrac
     public function __construct( $raw_data, \SeeClickFixSDK\Core\Proxy $proxy = null, $filterString = null ) {
         // Requesting URL
         $url = 'http://%sseeclickfix.com/api/v2/request_types/';
-        $url = sprintf( $url, (\Config::get('laravel-seeclickfix-api::sandbox_mode') ? 'test.' : '') );
+        $url = sprintf( $url, (\Config::get('laravel-seeclickfix-api::sandbox_mode') ? 'int.' : '') );
 
         // Haystack it!
         $filter = explode(',', $filterString);

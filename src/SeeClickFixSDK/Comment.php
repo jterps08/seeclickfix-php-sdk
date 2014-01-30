@@ -81,7 +81,8 @@ class Comment extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * @access public
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getComment();
     }
 

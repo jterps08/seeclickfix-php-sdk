@@ -30,7 +30,6 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * client_id:       These three items are required for authorization
      * redirect_uri:    URL that the SeeClickFix API shoudl redirect to
-     * grant_type:      Grant type from the SeeClickFix API. Only authorization_code is accepted right now.
      * display:         Pass in "touch" if you'd like your authenticating users to see a mobile-optimized
      *                  version of the authenticate page and the sign-in page.
      *
@@ -41,7 +40,6 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
         'client_id'     => '',
         'client_secret' => '',
         'redirect_uri'  => '',
-        'grant_type'    => 'authorization_code',
         'display'       => '',
         'sandbox'       => false
     );
@@ -68,7 +66,7 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     public function getAuthorizationUri()
     {
         return sprintf('http://%sseeclickfix.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code',
-            ($this->config['sandbox'] ? 'test.' : ''),
+            ($this->config['sandbox'] ? 'int.' : ''),
             $this->config['client_id'],
             $this->config['redirect_uri']
         );
@@ -89,7 +87,7 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
         $post_data = array(
             'client_id'         => $this->config['client_id'],
             'client_secret'     => $this->config['client_secret'],
-            'grant_type'        => $this->config['grant_type'] ?: 'authorization_code'
+            'grant_type'        => $params['grant_type'] ?: 'authorization_code'
         );
 
         // What type of grant is it?
