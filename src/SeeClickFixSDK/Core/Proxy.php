@@ -40,7 +40,7 @@ class Proxy {
      * @var string
      * @access protected
      */
-    protected $api_url = 'http://%sseeclickfix.com/api/v2';
+    protected $api_url = 'https://%sseeclickfix.com/api/v2';
 
     /**
      * oAuth Token URL
@@ -48,7 +48,7 @@ class Proxy {
      * @var string
      * @access protected
      */
-    protected $token_url = 'http://%sseeclickfix.com/oauth/token';
+    protected $token_url = 'https://%sseeclickfix.com/oauth/token';
 
     /**
      * Constructor
