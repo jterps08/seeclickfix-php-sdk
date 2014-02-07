@@ -22,19 +22,17 @@ class RequestTypeCollection extends \SeeClickFixSDK\Collection\CollectionAbstrac
      * @param \SeeClickFixSDK\Core\Proxy $proxy Object's proxy
      * @access public
      */
-    public function __construct( $raw_data, \SeeClickFixSDK\Core\Proxy $proxy = null, $filterString = null ) {
-        // Requesting URL
-        $url = 'http://%sseeclickfix.com/api/v2/request_types/';
-        $url = sprintf( $url, (\Config::get('laravel-seeclickfix-api::sandbox_mode') ? 'int.' : '') );
-
+    public function __construct( $raw_data, \SeeClickFixSDK\Core\Proxy $proxy = null, $filterString = null )
+    {
         // Haystack it!
         $filter = explode(',', $filterString);
 
         // Filter out unused request types
-        foreach ($raw_data->request_types as $key=>$requestType)
+        foreach ($raw_data->request_types as $key => $requestType)
         {
-            $id = str_replace($url, '', $requestType->url);
-            $raw_data->request_types[$key]->id = $id;
+            if(preg_match("/\/(\d+)$/", $requestType->url, $matches)) {
+                $raw_data->request_types[$key]->id = $matches[1];
+            }
 
             if( $filterString && !in_array($id, $filter) ) {
                 unset($raw_data->request_types[$key]);
