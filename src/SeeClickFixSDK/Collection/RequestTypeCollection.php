@@ -30,12 +30,13 @@ class RequestTypeCollection extends \SeeClickFixSDK\Collection\CollectionAbstrac
         // Filter out unused request types
         foreach ($raw_data->request_types as $key => $requestType)
         {
-            if(preg_match("/\/(\d+)$/", $requestType->url, $matches)) {
+            if(preg_match("/\/(\d+)$/", $requestType->url, $matches))
+            {
                 $raw_data->request_types[$key]->id = $matches[1];
-            }
 
-            if( $filterString && !in_array($id, $filter) ) {
-                unset($raw_data->request_types[$key]);
+                if( $filterString && !in_array($raw_data->request_types[$key]->id, $filter) ) {
+                    unset($raw_data->request_types[$key]);
+                }
             }
         }
 
