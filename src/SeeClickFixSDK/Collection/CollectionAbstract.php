@@ -199,4 +199,23 @@ abstract class CollectionAbstract implements \IteratorAggregate, \ArrayAccess, \
         return count( $this->data );
     }
 
+
+    /**
+     * Get an array with the values of a given column.
+     *
+     * @param  string  $column
+     * @return array
+     */
+    public function lists($column)
+    {
+        $data = array();
+
+        foreach ($this->data as $key => $value)
+        {
+            $data[] = $value->$column;
+        }
+
+        return $data;
+    }
+
 }
