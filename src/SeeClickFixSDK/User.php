@@ -41,4 +41,19 @@ class User extends \SeeClickFixSDK\Core\BaseObjectAbstract {
         return $error;
     }
 
+    /**
+     * Returns the user as an array
+     *
+     * @return array
+     * @access public
+     */
+    public function toArray() {
+        return array(
+            "id"            => $this->getId(),
+            "name"          => $this->name,
+            "civic_points"  => $this->civic_points,
+            "avatar"        => $this->getAvatar('square_100x100')
+        );
+    }
+
 }

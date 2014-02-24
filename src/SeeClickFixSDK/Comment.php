@@ -86,4 +86,18 @@ class Comment extends \SeeClickFixSDK\Core\BaseObjectAbstract {
         return $this->getComment();
     }
 
+    /**
+     * Returns the comment as an array
+     *
+     * @return array
+     * @access public
+     */
+    public function toArray() {
+        return array(
+            // "id"          => null, // How stupid there isn't an ID!
+            "comment"     => $this->getComment(),
+            "thumbnail"   => $this->getThumbnail('square'),
+            "commenter"   => $this->getUser()->toArray(),
+        );
+    }
 }

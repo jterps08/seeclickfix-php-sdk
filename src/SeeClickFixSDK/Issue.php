@@ -115,10 +115,16 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      */
     public function getComments()
     {
-        if ( $this->comments_count > 0 && !$this->comments) {
-            $this->comments = new CommentCollection( $this->proxy->getIssueComments( $this->getId() ), $this->proxy );
+        // Already loaded?
+        if($this->comments)
+            return $this->comments;
+
+        if ( $this->comments_count > 0 && ! $this->comments) {
+            return $this->comments = new CommentCollection( $this->proxy->getIssueComments( $this->getId() ), $this->proxy );
         }
-        return $this->comments;
+        else {
+            return $this->comments = new CommentCollection( null, $this->proxy );
+        }
     }
 
     /**

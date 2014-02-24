@@ -18,4 +18,21 @@ class CommentCollection extends \SeeClickFixSDK\Collection\CollectionAbstract {
         $this->convertData( '\SeeClickFixSDK\Comment' );
     }
 
+    /**
+     * Returns comments as an array
+     *
+     * @return array
+     * @access public
+     */
+    public function toArray()
+    {
+        $data = array();
+
+        foreach ($this->data as $comment) {
+            $data[] = $comment->toArray();
+        }
+
+        return $data;
+    }
+
 }
