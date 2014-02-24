@@ -393,11 +393,13 @@ class Proxy {
             'comment' => $comment
         ], (array)$params );
 
-        return $this->apiCall(
+        $response = $this->apiCall(
             'post',
             $this->api_url . sprintf( '/issues/%s/%s', $issue_id, $params['status'] ),
             $params
         );
+
+        return $response->getRawData();
     }
 
     /**
