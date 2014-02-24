@@ -35,12 +35,20 @@ class Proxy {
     protected $client_id = null;
 
     /**
+     * Base URL
+     *
+     * @var string
+     * @access protected
+     */
+    protected $base_url = 'https://%sseeclickfix.com';
+
+    /**
      * API URL
      *
      * @var string
      * @access protected
      */
-    protected $api_url = 'https://%sseeclickfix.com/api/v2';
+    protected $api_url = '/api/v2';
 
     /**
      * oAuth Token URL
@@ -48,7 +56,7 @@ class Proxy {
      * @var string
      * @access protected
      */
-    protected $token_url = 'https://%sseeclickfix.com/oauth/token';
+    protected $token_url = '/oauth/token';
 
     /**
      * Constructor
@@ -58,12 +66,15 @@ class Proxy {
      */
     public function __construct($client_id = null, $sandbox = false )
     {
-        $this->client = new \SeeClickFixSDK\Net\CurlClient;
+        $this->client    = new \SeeClickFixSDK\Net\CurlClient;
         $this->client_id = $client_id;
 
-        // Sandbox mode?
-        $this->api_url = sprintf( $this->api_url, ($sandbox ? 'int.' : '') );
-        $this->token_url = sprintf( $this->token_url, ($sandbox ? 'int.' : '') );
+        // Set base URL
+        $this->base_url = sprintf( $this->base_url, ($sandbox ? 'int.' : '') );
+
+        // Set URLs
+        $this->api_url   = $this->base_url . $this->api_url;
+        $this->token_url = $this->base_url . $this->token_url;
     }
 
     /**
@@ -128,6 +139,30 @@ class Proxy {
             'get',
             sprintf( '%s/users/%s', $this->api_url, $id )
         );
+        return $response->getRawData();
+    }
+
+    /**
+     * Reset a user's password
+     *
+     * @param string $email User's email
+     * @return StdClass Returns the user data
+     * @access public
+     */
+    public function resetPassword( $email )
+    {
+        $params = array(
+            'user' => array(
+                'login' => $email
+            )
+        );
+
+        $response = $this->apiCall(
+            'post',
+            $this->base_url . '/forgot_password.json',
+            $params
+        );
+
         return $response->getRawData();
     }
 

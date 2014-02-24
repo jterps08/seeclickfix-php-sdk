@@ -181,6 +181,18 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     }
 
     /**
+     * Reset a user's password
+     *
+     * @param array $email User email
+     * @return \SeeClickFixSDK\User
+     * @access public
+     */
+    public function resetPassword( $email )
+    {
+        return $this->proxy->resetPassword( $email );
+    }
+
+    /**
      * Create a user
      *
      * Register a user on SeeClickFix
