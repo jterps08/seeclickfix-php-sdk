@@ -110,11 +110,16 @@ class ApiResponse {
                 if(is_array($value))
                 {
                     $error .= $key.' ';
-                    foreach($value as $e) {
-                        $error .= ' '.$e;
+                    foreach($value as $e)
+                    {
+                        if($key !== 'documentation_url')
+                        {
+                            $error .= ' '.$e;
+                        }
                     }
                 }
-                else {
+                else if($key !== 'documentation_url')
+                {
                     $error .= $value.' ';
                 }
             }
