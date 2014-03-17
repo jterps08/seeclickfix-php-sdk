@@ -21,6 +21,22 @@ class CurrentUser extends \SeeClickFixSDK\User {
     protected $voted = array();
 
     /**
+     * Update current user
+     *
+     * @param array $params Required parameters
+     * @return \SeeClickFixSDK\CurrentUser
+     * @access public
+     */
+    public function update( array $params )
+    {
+        $response = $this->proxy->updateCurrentUser( $params );
+
+        $this->setData( $response );
+
+        return $this;
+    }
+
+    /**
      * Add vote from current user
      *
      * @param \SeeClickFixSDK\Issues|string $issues Issues to add a like to from the current user

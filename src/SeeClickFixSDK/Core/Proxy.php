@@ -127,6 +127,24 @@ class Proxy {
     }
 
     /**
+     * Update current user user
+     *
+     * @param array $params Update params
+     * @return StdClass Returns the user data
+     * @access public
+     */
+    public function updateCurrentUser( array $params = null )
+    {
+        $response = $this->apiCall(
+            'put',
+            $this->api_url . '/profile',
+            $params
+        );
+
+        return $response->getRawData();
+    }
+
+    /**
      * Get user
      *
      * @param string $id User ID

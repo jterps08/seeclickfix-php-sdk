@@ -67,6 +67,10 @@ class CurlClient {
     public function put( $url, array $data = null  )
     {
         curl_setopt( $this->curl, CURLOPT_CUSTOMREQUEST, 'PUT' );
+        curl_setopt( $this->curl, CURLOPT_URL, $url );
+        curl_setopt( $this->curl, CURLOPT_POST, 1);
+        curl_setopt( $this->curl, CURLOPT_POSTFIELDS, $this->http_build_query_for_curl($data) );
+        return $this->fetch();
     }
 
     /**
