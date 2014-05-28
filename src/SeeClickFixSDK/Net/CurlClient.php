@@ -34,6 +34,7 @@ class CurlClient {
      */
     public function get( $url, array $data = null )
     {
+        curl_setopt( $this->curl, CURLOPT_HTTPGET, 1);
         curl_setopt( $this->curl, CURLOPT_CUSTOMREQUEST, 'GET' );
         curl_setopt( $this->curl, CURLOPT_URL, sprintf( "%s?%s", $url, http_build_query( $data ) ) );
         return $this->fetch();
@@ -98,8 +99,9 @@ class CurlClient {
     protected function initializeCurl()
     {
         $this->curl = curl_init();
-        curl_setopt( $this->curl, CURLOPT_RETURNTRANSFER, true );
-        curl_setopt( $this->curl, CURLOPT_SSL_VERIFYPEER, false );
+        curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, 1);
     }
 
     /**
