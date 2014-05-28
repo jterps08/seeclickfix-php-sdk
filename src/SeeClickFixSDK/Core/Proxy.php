@@ -70,7 +70,7 @@ class Proxy {
         $this->client_id = $client_id;
 
         // Set base URL
-        $this->base_url = sprintf( $this->base_url, ($sandbox ? 'int.' : '') );
+        $this->base_url = sprintf( $this->base_url, ($sandbox ? 'test.' : '') );
 
         // Set URLs
         $this->api_url   = $this->base_url . $this->api_url;
@@ -90,6 +90,7 @@ class Proxy {
             $this->token_url,
             $data
         );
+
         return $response;
     }
 

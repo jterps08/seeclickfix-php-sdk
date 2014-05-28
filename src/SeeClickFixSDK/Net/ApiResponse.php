@@ -26,6 +26,7 @@ class ApiResponse {
     public function __construct( $raw_response )
     {
         $this->response = json_decode( $raw_response );
+
         if ( !$this->isValidApiResponse() ) {
             $this->response = new \StdClass;
             $this->response->meta = new \StdClass;

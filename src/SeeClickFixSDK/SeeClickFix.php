@@ -66,7 +66,7 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     public function getAuthorizationUri()
     {
         return sprintf('http://%sseeclickfix.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code',
-            ($this->config['sandbox'] ? 'int.' : ''),
+            ($this->config['sandbox'] ? 'test.' : ''),
             $this->config['client_id'],
             $this->config['redirect_uri']
         );
