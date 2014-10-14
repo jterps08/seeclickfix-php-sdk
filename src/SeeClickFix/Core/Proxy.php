@@ -1,4 +1,4 @@
-<?php namespace SeeClickFixSDK\Core;
+<?php namespace SeeClickFix\Core;
 
 /**
  * Proxy
@@ -13,8 +13,7 @@ class Proxy {
     /**
      * HTTP Client
      *
-     * @var \SeeClickFixSDK\Net\CurlClient
-     * @access protected
+     * @var \SeeClickFix\Net\CurlClient
      */
     protected $client;
 
@@ -22,7 +21,6 @@ class Proxy {
      * SeeClickFix access token
      *
      * @var string
-     * @access protected
      */
     protected $access_token = null;
 
@@ -30,7 +28,6 @@ class Proxy {
      * Client ID
      *
      * @var string
-     * @access protected
      */
     protected $client_id = null;
 
@@ -38,7 +35,6 @@ class Proxy {
      * Base URL
      *
      * @var string
-     * @access protected
      */
     protected $base_url = 'https://%sseeclickfix.com';
 
@@ -46,7 +42,6 @@ class Proxy {
      * API URL
      *
      * @var string
-     * @access protected
      */
     protected $api_url = '/api/v2';
 
@@ -54,7 +49,6 @@ class Proxy {
      * oAuth Token URL
      *
      * @var string
-     * @access protected
      */
     protected $token_url = '/oauth/token';
 
@@ -62,11 +56,10 @@ class Proxy {
      * Constructor
      *
      * @param string $client_id Client Id given by SeeClickFix
-     * @access public
      */
     public function __construct($client_id = null, $sandbox = false )
     {
-        $this->client    = new \SeeClickFixSDK\Net\CurlClient;
+        $this->client    = new \SeeClickFix\Net\CurlClient;
         $this->client_id = $client_id;
 
         // Set base URL
@@ -98,7 +91,6 @@ class Proxy {
      * Set the access token
      *
      * @param string $access_token The access token
-     * @access public
      */
     public function setAccessToken( $access_token )
     {
@@ -109,7 +101,6 @@ class Proxy {
      * Set the client ID
      *
      * @param string $client_id the client ID
-     * @access public
      */
     public function setClientID( $client_id ) {
         $this->client_id = $client_id;
@@ -119,8 +110,6 @@ class Proxy {
      * Logout of SeeClickFix
      *
      * This hasn't been implemented by SeeClickFix yet
-     *
-     * @access public
      */
     public function logout()
     {
@@ -130,9 +119,8 @@ class Proxy {
     /**
      * Update current user user
      *
-     * @param array $params Update params
-     * @return StdClass Returns the user data
-     * @access public
+     * @param  array $params Update params
+     * @return object Returns the user data
      */
     public function updateCurrentUser( array $params = null )
     {
@@ -148,9 +136,8 @@ class Proxy {
     /**
      * Get user
      *
-     * @param string $id User ID
-     * @return StdClass Returns the user data
-     * @access public
+     * @param  string $id User ID
+     * @return object Returns the user data
      */
     public function getUser( $id )
     {
@@ -162,35 +149,10 @@ class Proxy {
     }
 
     /**
-     * Reset a user's password
-     *
-     * @param string $email User's email
-     * @return StdClass Returns the user data
-     * @access public
-     */
-    public function resetPassword( $email )
-    {
-        $params = array(
-            'user' => array(
-                'login' => $email
-            )
-        );
-
-        $response = $this->apiCall(
-            'post',
-            $this->base_url . '/forgot_password.json',
-            $params
-        );
-
-        return $response->getRawData();
-    }
-
-    /**
      * Create a user
      *
-     * @param array $params Registration parameters
-     * @return StdClass Returns the user data
-     * @access public
+     * @param  array $params Registration parameters
+     * @return object Returns the user data
      */
     public function createUser( array $params = null )
     {
@@ -205,9 +167,8 @@ class Proxy {
     /**
      * Get place
      *
-     * @param string $id Place ID
-     * @return StdClass Returns the place data
-     * @access public
+     * @param  string $id Place ID
+     * @return object Returns the place data
      */
     public function getPlace( $id )
     {
@@ -221,9 +182,8 @@ class Proxy {
     /**
      * Search users
      *
-     * @param array $params Search params
+     * @param  array $params Search params
      * @return array Returns an array of user data
-     * @access public
      */
     public function searchUsers( array $params = null )
     {
@@ -238,9 +198,8 @@ class Proxy {
     /**
      * Search places
      *
-     * @param array $params Search params
+     * @param  array $params Search params
      * @return array Returns an array of place data
-     * @access public
      */
     public function searchPlaces( array $params = null )
     {
@@ -255,8 +214,7 @@ class Proxy {
     /**
      * Get current user
      *
-     * @return StdClass Returns the current user data
-     * @access public
+     * @return object Returns the current user data
      */
     public function getCurrentUser()
     {
@@ -270,9 +228,8 @@ class Proxy {
     /**
      * Get list of issues in a place
      *
-     * @param array $params Search params
-     * @return StdClass Returns the issue object
-     * @access public
+     * @param  array $params Search params
+     * @return object Returns the issue object
      */
     public function getIssues( array $params = null )
     {
@@ -287,9 +244,8 @@ class Proxy {
     /**
      * Get issue
      *
-     * @param string $id Issue ID
-     * @return StdClass Returns the issue data
-     * @access public
+     * @param  string $id Issue ID
+     * @return object Returns the issue data
      */
     public function getIssue( $id )
     {
@@ -303,9 +259,8 @@ class Proxy {
     /**
      * Get location's request types
      *
-     * @param string $point Required location parameters
+     * @param  string $point Required location parameters
      * @return object
-     * @access public
      */
     public function getLocationRequestTypes( $point )
     {
@@ -320,9 +275,8 @@ class Proxy {
     /**
      * Get issue
      *
-     * @param string $point Required location parameters
+     * @param  string $id
      * @return object
-     * @access public
      */
     public function getRequestType( $id )
     {
@@ -336,9 +290,8 @@ class Proxy {
     /**
      * Create an issue
      *
-     * @param string $params Required parameters
-     * @return StdClass Returns metadata
-     * @access public
+     * @param  string $params Required parameters
+     * @return object Returns metadata
      */
     public function createIssue( $params )
     {
@@ -353,9 +306,8 @@ class Proxy {
     /**
      * Add a like form the current user on an issue
      *
-     * @param string $issue_id Issue ID to like
-     * @return StdClass Returns the status
-     * @access public
+     * @param  string $issue_id Issue ID to like
+     * @return object Returns the status
      */
     public function addIssueVote( $issue_id )
     {
@@ -368,9 +320,8 @@ class Proxy {
     /**
      * Current user follow the issue
      *
-     * @param string $issue_id Issue ID to like
-     * @return StdClass Returns the status
-     * @access public
+     * @param  string $issue_id Issue ID to like
+     * @return object Returns the status
      */
     public function followIssue( $issue_id )
     {
@@ -383,9 +334,8 @@ class Proxy {
     /**
      * Get issue comments
      *
-     * @param string $id Issue ID
-     * @return StdClass Returns the issue data
-     * @access public
+     * @param  string $id Issue ID
+     * @return object Returns the issue data
      */
     public function getIssueComments( $id )
     {
@@ -399,11 +349,10 @@ class Proxy {
     /**
      * Add a comment to an issue
      *
-     * @param string $issue_id Issue ID
-     * @param string $comment Comment text
-     * @param array $params Optional parameters
-     * @return StdClass Returns the status
-     * @access public
+     * @param  string $issue_id Issue ID
+     * @param  string $comment Comment text
+     * @param  array $params Optional parameters
+     * @return object Returns the status
      */
     public function addIssueComment( $issue_id, $comment, array $params = null )
     {
@@ -424,11 +373,10 @@ class Proxy {
     /**
      * Flag site content
      *
-     * @param string $id Content ID
-     * @param string $text Comment text
-     * @param string $type Comment type [issues, comments]
-     * @return StdClass Returns the status
-     * @access public
+     * @param  string $id Content ID
+     * @param  string $text Comment text
+     * @param  string $type Comment type [issues, comments]
+     * @return object Returns the status
      */
     public function addContentFlag( $id, $text, $type )
     {
@@ -442,13 +390,12 @@ class Proxy {
     /**
      * Make a call to the API
      *
-     * @param string $method HTTP method to use
-     * @param string $url URL
-     * @param array $params API parameters
-     * @param boolean $throw_exception True to throw exceptoins
+     * @param  string $method HTTP method to use
+     * @param  string $url URL
+     * @param  array $params API parameters
+     * @param  boolean $throw_exception True to throw exceptoins
      * @throws APIException, APIAuthException
-     * @return  \SeeClickFixSDK\Net\ApiResponse Returns teh API response
-     * @access private
+     * @return \SeeClickFix\Net\ApiResponse Returns teh API response
      */
     private function apiCall( $method, $url, array $params = null, $throw_exception = true )
     {
@@ -460,17 +407,17 @@ class Proxy {
             ) + (array) $params
         );
 
-        $response = new \SeeClickFixSDK\Net\ApiResponse( $raw_response );
+        $response = new \SeeClickFix\Net\ApiResponse( $raw_response );
 
         if ( !$response->isValid() )
         {
             if ( $throw_exception )
             {
                 if ( $response->getErrorType() == 'OAuthAccessTokenException' ) {
-                    throw new \SeeClickFixSDK\Core\ApiAuthException( $response->getErrorMessage(), $response->getErrorCode(), $response->getErrorType() );
+                    throw new \SeeClickFix\Core\ApiAuthException( $response->getErrorMessage(), $response->getErrorCode(), $response->getErrorType() );
                 }
                 else {
-                    throw new \SeeClickFixSDK\Core\ApiException( $response->getErrorMessage(), $response->getErrorCode(), $response->getErrorType() );
+                    throw new \SeeClickFix\Core\ApiException( $response->getErrorMessage(), $response->getErrorCode(), $response->getErrorType() );
                 }
             }
             else {
@@ -480,5 +427,4 @@ class Proxy {
 
         return $response;
     }
-
 }

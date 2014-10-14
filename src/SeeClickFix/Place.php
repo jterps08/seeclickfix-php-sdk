@@ -1,6 +1,6 @@
-<?php namespace SeeClickFixSDK;
+<?php namespace SeeClickFix;
 
-use \SeeClickFixSDK\Collection\IssueCollection;
+use \SeeClickFix\Collection\IssueCollection;
 
 /**
  * Place class
@@ -8,12 +8,12 @@ use \SeeClickFixSDK\Collection\IssueCollection;
  * Some media has a place associated to it. This place will have an ID and a name.
  * Some media has no place associated, but has a lat/lng. These place objects will return null or '' for certain method calls
  */
-class Place extends \SeeClickFixSDK\Core\BaseObjectAbstract {
+class Place extends \SeeClickFix\Core\BaseObjectAbstract {
 
     /**
      * Comments cache
      *
-     * @var \SeeClickFixSDK\Collection\IssueCollection
+     * @var \SeeClickFix\Collection\IssueCollection
      */
     protected $issues = null;
 
@@ -21,7 +21,6 @@ class Place extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Get place slug
      *
      * @return string|null
-     * @access public
      */
     public function getSlug()
     {
@@ -32,11 +31,9 @@ class Place extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Get place type (city, neighborhood...)
      *
      * @return string|null
-     * @access public
      */
     public function getType()
     {
         return isset( $this->data->data_classification ) ? $this->data->data_classification : null;
     }
-
 }

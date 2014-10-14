@@ -1,4 +1,4 @@
-<?php namespace SeeClickFixSDK\Core;
+<?php namespace SeeClickFix\Core;
 
 /**
  * API Exception
@@ -32,7 +32,8 @@ class ApiException extends \Exception {
      * @param string  $type Error type
      * @param Exception $previous Previous exception
      */
-    public function __construct( $message = null, $code = 0, $type = null, \Exception $previous = null ) {
+    public function __construct( $message = null, $code = 0, $type = null, \Exception $previous = null )
+    {
         $this->type = $type;
         parent::__construct( $message, $code, $previous );
     }
@@ -42,8 +43,8 @@ class ApiException extends \Exception {
      *
      * @return string Get teh error type
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
-
 }

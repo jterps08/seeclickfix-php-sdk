@@ -1,25 +1,26 @@
-<?php namespace SeeClickFixSDK;
+<?php namespace SeeClickFix;
 
-use \SeeClickFixSDK\Collection\UserCollection;
-use \SeeClickFixSDK\Collection\PlaceCollection;
-use \SeeClickFixSDK\Collection\IssueCollection;
-use \SeeClickFixSDK\Collection\RequestTypeCollection;
-use \SeeClickFixSDK\User;
-use \SeeClickFixSDK\Place;
+use \SeeClickFix\Collection\UserCollection;
+use \SeeClickFix\Collection\PlaceCollection;
+use \SeeClickFix\Collection\IssueCollection;
+use \SeeClickFix\Collection\RequestTypeCollection;
+use \SeeClickFix\User;
+use \SeeClickFix\Place;
 
 /**
  * SeeClickFix!
  *
  * All objects are created through this object
  */
-class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
+class SeeClickFix extends \SeeClickFix\Core\BaseObjectAbstract
+{
     /**
      * The user that's been retrieved and is used
      * for authentication. Authentication methods
      * are available for finding the user to set
      * here.
      *
-     * @var \SeeClickFixSDK\User
+     * @var \SeeClickFix\User
      */
     protected $current_user;
 
@@ -34,7 +35,6 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *                  version of the authenticate page and the sign-in page.
      *
      * @var array
-     * @access protected
      */
     protected $config = array(
         'client_id'     => '',
@@ -48,12 +48,11 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Constructor
      *
      * @param array $config Configuration array
-     * @access public
      */
     public function __construct( array $config = null )
     {
         $this->config = (array) $config + $this->config;
-        $this->proxy = new \SeeClickFixSDK\Core\Proxy($this->config['client_id'], $this->config['sandbox']);
+        $this->proxy = new \SeeClickFix\Core\Proxy($this->config['client_id'], $this->config['sandbox']);
     }
 
     /**
@@ -61,7 +60,6 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * Returns the SeeClickFix authorization url
      * @return string Returns the access token
-     * @access public
      */
     public function getAuthorizationUri()
     {
@@ -77,17 +75,16 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * POSTs to the SeeClickFix API and obtains and access key
      *
-     * @param string $params Username/Password or Code
+     * @param  string $params Username/Password or Code
      * @return string Returns the access token
-     * @throws \SeeClickFixSDK\Core\ApiException
-     * @access public
+     * @throws \SeeClickFix\Core\ApiException
      */
     public function getAccessToken( $params )
     {
         $post_data = array(
             'client_id'         => $this->config['client_id'],
             'client_secret'     => $this->config['client_secret'],
-            'grant_type'        => $params['grant_type'] ?: 'authorization_code'
+            'grant_type'        => isset($params['grant_type']) ? $params['grant_type'] : 'authorization_code'
         );
 
         // What type of grant is it?
@@ -108,7 +105,11 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
             return $response->getRawData()->access_token;
         }
 
-        throw new \SeeClickFixSDK\Core\ApiException( $response->getErrorMessage(), $response->getErrorCode(), $response->getErrorType() );
+        throw new \SeeClickFix\Core\ApiException(
+                    $response->getErrorMessage(),
+                    $response->getErrorCode(),
+                    $response->getErrorType()
+        );
     }
 
     /**
@@ -117,7 +118,6 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Most API calls require an access ID
      *
      * @param string $access_token
-     * @access public
      */
     public function setAccessToken( $access_token )
     {
@@ -130,7 +130,6 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Some API calls can be called with only a Client ID
      *
      * @param string $client_id Client ID
-     * @access public
      */
     public function setClientID( $client_id )
     {
@@ -141,8 +140,6 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Logout
      *
      * This doesn't actually work yet, waiting for SeeClickFix to implement it in their API
-     *
-     * @access public
      */
     public function logout()
     {
@@ -154,9 +151,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * Retrieve a list of users
      *
-     * @param array $params Search params
-     * @return \SeeClickFixSDK\User
-     * @access public
+     * @param  array $params Search params
+     * @return \SeeClickFix\User
      */
     public function getUsers( array $params = null )
     {
@@ -170,9 +166,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * Retrieve a user given his/her ID
      *
-     * @param int $id ID of the user to retrieve
-     * @return \SeeClickFixSDK\User
-     * @access public
+     * @param  int $id ID of the user to retrieve
+     * @return \SeeClickFix\User
      */
     public function getUser( $id )
     {
@@ -183,9 +178,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     /**
      * Reset a user's password
      *
-     * @param array $email User email
-     * @return \SeeClickFixSDK\User
-     * @access public
+     * @param  array $email User email
+     * @return \SeeClickFix\User
      */
     public function resetPassword( $email )
     {
@@ -197,9 +191,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * Register a user on SeeClickFix
      *
-     * @param array $params Registration parameters
-     * @return \SeeClickFixSDK\User
-     * @access public
+     * @param  array $params Registration parameters
+     * @return \SeeClickFix\User
      */
     public function createUser( array $params = null )
     {
@@ -210,8 +203,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     /**
      * Get issues this place
      *
-     * @param array $params Search params
-     * @access public
+     * @param  array $params Search params
+     * @return \SeeClickFix\IssueCollection
      */
     public function getIssues( array $params = null )
     {
@@ -226,8 +219,7 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Retreive an issue object given it's ID
      *
      * @param int $id ID of the media to retrieve
-     * @return \SeeClickFixSDK\Issue
-     * @access public
+     * @return \SeeClickFix\Issue
      */
     public function getIssue( $id )
     {
@@ -240,9 +232,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * Retreive request types based on location
      *
-     * @param string $point Location parameters
+     * @param  string $point Location parameters
      * @return object
-     * @access public
      */
     public function getLocationRequestTypes( $point, $filter = null )
     {
@@ -254,9 +245,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * Retreive request type
      *
-     * @param string $id Location parameters
+     * @param  string $id Location parameters
      * @return object
-     * @access public
      */
     public function getRequestType( $id )
     {
@@ -266,8 +256,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     /**
      * Get issues this place
      *
-     * @param array $params Search params
-     * @access public
+     * @param  array $params Search params
+     * @return object
      */
     public function getPlaces( array $params = null )
     {
@@ -281,9 +271,8 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * Retreive a place given it's ID
      *
-     * @param int $id ID of the place to retrieve
-     * @return \SeeClickFixSDK\Place
-     * @access public
+     * @param  int $id ID of the place to retrieve
+     * @return \SeeClickFix\Place
      */
     public function getPlace( $id )
     {
@@ -296,8 +285,7 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * Returns the current user wrapped in a CurrentUser object
      *
-     * @return \SeeClickFixSDK\CurrentUser
-     * @access public
+     * @return \SeeClickFix\CurrentUser
      */
     public function getCurrentUser()
     {
@@ -308,5 +296,4 @@ class SeeClickFix extends \SeeClickFixSDK\Core\BaseObjectAbstract {
 
         return $this->current_user;
     }
-
 }

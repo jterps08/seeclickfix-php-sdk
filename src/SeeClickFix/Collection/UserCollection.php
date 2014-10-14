@@ -1,23 +1,22 @@
-<?php namespace SeeClickFixSDK\Collection;
+<?php namespace SeeClickFix\Collection;
 
 /**
  * User Collection
  *
  * Holds a collection of users
  */
-class UserCollection extends \SeeClickFixSDK\Collection\CollectionAbstract {
+class UserCollection extends \SeeClickFix\Collection\CollectionAbstract {
 
     /**
      * Set the collection data
      *
-     * @param StdClass $raw_data
-     * @access public
+     * @param object $raw_data
      */
     public function setData( $raw_data )
     {
         $this->data = $raw_data->users;
         $this->pagination = isset( $raw_data->pagination ) ? $raw_data->pagination : null;
-        $this->convertData( '\SeeClickFixSDK\User' );
+        $this->convertData( '\SeeClickFix\User' );
     }
 
     /**
@@ -26,7 +25,6 @@ class UserCollection extends \SeeClickFixSDK\Collection\CollectionAbstract {
      * Get the next max cursor for use in pagination
      *
      * @return string Returns the next max cursor
-     * @access public
      */
     public function getNextCursor()
     {
@@ -39,7 +37,6 @@ class UserCollection extends \SeeClickFixSDK\Collection\CollectionAbstract {
      * Get the next max cursor for use in pagination
      *
      * @return string Returns the next max cursor
-     * @access public
      */
     public function getNext()
     {

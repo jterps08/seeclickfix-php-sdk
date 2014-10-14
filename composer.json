@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-0": {
-            "SeeClickFixSDK": "src/"
+            "SeeClickFix": "src/"
         }
 	},
     "extra": {

@@ -1,17 +1,16 @@
-<?php namespace SeeClickFixSDK;
+<?php namespace SeeClickFix;
 
 /**
  * Issue class
  *
- * @see \SeeClickFixSDK\SeeClickFixSDK->getPlace()
+ * @see \SeeClickFix\SeeClickFix->getPlace()
  */
-class RequestType extends \SeeClickFixSDK\Core\BaseObjectAbstract {
+class RequestType extends \SeeClickFix\Core\BaseObjectAbstract {
 
     /**
      * Returns the request type as an array
      *
      * @return array
-     * @access public
      */
     public function toArray()
     {
@@ -22,5 +21,4 @@ class RequestType extends \SeeClickFixSDK\Core\BaseObjectAbstract {
             'url'           => $this->url
         );
     }
-
 }

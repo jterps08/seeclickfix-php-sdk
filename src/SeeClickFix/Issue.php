@@ -1,55 +1,69 @@
-<?php namespace SeeClickFixSDK;
+<?php namespace SeeClickFix;
 
-use \SeeClickFixSDK\Comment;
-use \SeeClickFixSDK\User;
-use \SeeClickFixSDK\Place;
-use \SeeClickFixSDK\Collection\CommentCollection;
-use \SeeClickFixSDK\Collection\UserCollection;
+use \SeeClickFix\Comment;
+use \SeeClickFix\User;
+use \SeeClickFix\Place;
+use \SeeClickFix\Collection\CommentCollection;
+use \SeeClickFix\Collection\UserCollection;
 
 /**
  * Issue class
  *
- * @see \SeeClickFixSDK\SeeClickFixSDK->getPlace()
+ * @see \SeeClickFix\SeeClickFix->getPlace()
  */
-class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
+class Issue extends \SeeClickFix\Core\BaseObjectAbstract {
 
     /**
      * User cache
      *
-     * @var \SeeClickFixSDK\User
+     * @var \SeeClickFix\User
      */
     protected $user = null;
 
     /**
      * Comments cache
      *
-     * @var \SeeClickFixSDK\Collection\CommentCollection
+     * @var \SeeClickFix\Collection\CommentCollection
      */
     protected $comments = null;
 
     /**
      * Place cache
      *
-     * @var \SeeClickFixSDK\Place
+     * @var \SeeClickFix\Place
      */
     protected $place = null;
+
+    /**
+     * Constructor
+     *
+     * @param object $data Object's data
+     * @param \SeeClickFix\Core\Proxy $proxy Object's proxy
+     */
+    public function __construct($data, \SeeClickFix\Core\Proxy $proxy = null)
+    {
+        // Normalize status
+        if (isset($data->status)) {
+            $data->status = strtolower($data->status);
+        }
+
+        parent::__construct($data, $proxy);
+    }
 
     /**
      * Get the ID
      *
      * @return string
-     * @access public
      */
     public function getId()
     {
         return isset($this->data->id) ? $this->data->id : null;
-     }
+    }
 
     /**
      * Get the thumbnail
      *
      * @return string
-     * @access public
      */
     public function getThumbnail($size = 'full')
     {
@@ -76,9 +90,8 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     /**
      * Get the created time
      *
-     * @param string $format {@link http://php.net/manual/en/function.date.php}
+     * @param  string $format {@link http://php.net/manual/en/function.date.php}
      * @return string
-     * @access public
      */
     public function getCreatedTime( $format = null )
     {
@@ -94,8 +107,7 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
     /**
      * Get the reporter that posted the issue
      *
-     * @return \SeeClickFixSDK\User
-     * @access public
+     * @return \SeeClickFix\User
      */
     public function getReporter()
     {
@@ -110,8 +122,7 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * Return all the comments associated with a issue
      *
-     * @return \SeeClickFixSDK\CommentCollection
-     * @access public
+     * @return \SeeClickFix\CommentCollection
      */
     public function getComments()
     {
@@ -131,7 +142,6 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Get the issue's vote count
      *
      * @return int
-     * @access public
      */
     public function getVoteCount()
     {
@@ -144,7 +154,6 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Will return true if any place data is associated with the issue
      *
      * @return bool
-     * @access public
      */
     public function hasPlace()
     {
@@ -156,9 +165,8 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      *
      * Returns the place associated with the issue or null if no place data is available
      *
-     * @param bool $force_fetch Don't use the cache
-     * @return \SeeClickFixSDK\Place|null
-     * @access public
+     * @param  bool $force_fetch Don't use the cache
+     * @return \SeeClickFix\Place|null
      */
     public function getPlace( $force_fetch = false )
     {
@@ -177,7 +185,6 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Returns the issue's thumbnail url
      *
      * @return string
-     * @access public
      */
     public function __toString()
     {
@@ -188,9 +195,9 @@ class Issue extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Returns the issue as an array
      *
      * @return array
-     * @access public
      */
-    public function toArray() {
+    public function toArray()
+    {
         return array(
             "id"            => $this->getId(),
             "status"        => strtolower($this->status),

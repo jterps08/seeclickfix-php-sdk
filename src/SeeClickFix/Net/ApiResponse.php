@@ -1,4 +1,4 @@
-<?php namespace SeeClickFixSDK\Net;
+<?php namespace SeeClickFix\Net;
 
 /**
  * API Response
@@ -12,16 +12,14 @@ class ApiResponse {
      *
      * This is the response from the API
      *
-     * @var StdClass
-     * @access protected
+     * @var object
      */
     protected $response;
 
     /**
      * Constructor
      *
-     * @param $raw_response Response from the API
-     * @access public
+     * @param string $raw_response Response from the API
      */
     public function __construct( $raw_response )
     {
@@ -50,7 +48,6 @@ class ApiResponse {
      * Returns true if the API returned an error, otherwise false
      *
      * @return boolean
-     * @access public
      */
     public function isValid()
     {
@@ -59,13 +56,13 @@ class ApiResponse {
             !isset( $this->response->meta->error_type ) &&
             !isset( $this->response->errors );
     }
+
     /**
      * Is Valid API Response
      *
      * Returns true if the response was a valid response from the API, otherwise false
      *
      * @return boolean
-     * @access public
      */
     public function isValidApiResponse()
     {
@@ -76,7 +73,6 @@ class ApiResponse {
      * Get the response data
      *
      * @return mixed Return the response's data or null
-     * @access public
      */
     public function getData()
     {
@@ -87,7 +83,6 @@ class ApiResponse {
      *  Get the raw response
      *
      * @return mixed Returns the response or null
-     * @access public
      */
     public function getRawData()
     {
@@ -98,7 +93,6 @@ class ApiResponse {
      * Get the response's error message
      *
      * @return mixed Returns the error message or null
-     * @access public
      */
     public function getErrorMessage()
     {
@@ -142,7 +136,6 @@ class ApiResponse {
      * Get the error code
      *
      * @return mixed Returns the error code or null
-     * @access public
      */
     public function getErrorCode()
     {
@@ -161,7 +154,6 @@ class ApiResponse {
      * Get the error type
      *
      * @return mixed Returns the error type or null
-     * @access public
      */
     public function getErrorType()
     {
@@ -180,7 +172,6 @@ class ApiResponse {
      * Magic to string method
      *
      * @return string Return the json encoded response
-     * @access public
      */
     public function __toString()
     {

@@ -1,4 +1,4 @@
-<?php namespace SeeClickFixSDK\Net;
+<?php namespace SeeClickFix\Net;
 
 /**
  * Curl Client
@@ -10,7 +10,7 @@ class CurlClient {
     /**
      * Curl Resource
      *
-     * @var curl resource
+     * @var object
      */
     protected $curl = null;
 
@@ -27,10 +27,9 @@ class CurlClient {
     /**
      * GET
      *
-     * @param string $url URL to send get request to
-     * @param array $data GET data
-     * @return \SeeClickFixSDK\Net\Response
-     * @access public
+     * @param  string $url URL to send get request to
+     * @param  array $data GET data
+     * @return object
      */
     public function get( $url, array $data = null )
     {
@@ -43,10 +42,9 @@ class CurlClient {
     /**
      * POST
      *
-     * @param string $url URL to send post request to
-     * @param array $data POST data
-     * @return \SeeClickFixSDK\Net\Response
-     * @access public
+     * @param  string $url URL to send post request to
+     * @param  array $data POST data
+     * @return object
      */
     public function post( $url, array $data = null )
     {
@@ -60,10 +58,9 @@ class CurlClient {
     /**
      * PUT
      *
-     * @param string $url URL to send put request to
-     * @param array $data PUT data
-     * @return \SeeClickFixSDK\Net\Response
-     * @access public
+     * @param  string $url URL to send put request to
+     * @param  array $data PUT data
+     * @return object
      */
     public function put( $url, array $data = null  )
     {
@@ -77,10 +74,9 @@ class CurlClient {
     /**
      * DELETE
      *
-     * @param string $url URL to send delete request to
-     * @param array $data DELETE data
-     * @return \SeeClickFixSDK\Net\Response
-     * @access public
+     * @param  string $url URL to send delete request to
+     * @param  array $data DELETE data
+     * @return object
      */
     public function delete( $url, array $data = null  )
     {
@@ -93,8 +89,6 @@ class CurlClient {
      * Initialize curl
      *
      * Sets initial parameters on the curl object
-     *
-     * @access protected
      */
     protected function initializeCurl()
     {
@@ -109,9 +103,8 @@ class CurlClient {
      *
      * Execute the curl object
      *
-     * @return StdClass
-     * @access protected
-     * @throws \SeeClickFixSDK\Core\ApiException
+     * @return object
+     * @throws \SeeClickFix\Core\ApiException
      */
     protected function fetch()
     {
@@ -120,7 +113,7 @@ class CurlClient {
 
         if ( $error )
         {
-            throw new \SeeClickFixSDK\Core\ApiException( $error, 666, 'CurlError' );
+            throw new \SeeClickFix\Core\ApiException( $error, 666, 'CurlError' );
         }
 
         return $raw_response;
@@ -130,7 +123,6 @@ class CurlClient {
      * Handle nested arrays when posting
      *
      * @return array
-     * @access protected
      */
     protected function http_build_query_for_curl(array $var, $prefix = false)
     {
@@ -164,9 +156,9 @@ class CurlClient {
     /**
      * POST file upload
      *
-     * @param string $filename File to be uploaded
-     * @return mix
-     * @access protected
+     * @param  string $filename File to be uploaded
+     * @return mixed
+     * @throws \InvalidArgumentException
      */
     public function addPostFile($filename)
     {
@@ -176,7 +168,7 @@ class CurlClient {
         }
 
         if (!is_readable($filename)) {
-            throw new InvalidArgumentException("Unable to open {$filename} for reading");
+            throw new \InvalidArgumentException("Unable to open {$filename} for reading");
         }
 
         // PHP 5.5 introduced a CurlFile object that deprecates the old @filename syntax

@@ -1,15 +1,14 @@
-<?php namespace SeeClickFixSDK;
+<?php namespace SeeClickFix;
 
 /**
  * User class
  */
-class User extends \SeeClickFixSDK\Core\BaseObjectAbstract {
+class User extends \SeeClickFix\Core\BaseObjectAbstract {
 
     /**
      * Get the user's avatar
      *
      * @return string
-     * @access public
      */
     public function getAvatar($size = 'full') {
         return $this->data->avatar->$size;
@@ -19,7 +18,6 @@ class User extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Get errors
      *
      * @return string
-     * @access public
      */
     public function errors()
     {
@@ -45,9 +43,9 @@ class User extends \SeeClickFixSDK\Core\BaseObjectAbstract {
      * Returns the user as an array
      *
      * @return array
-     * @access public
      */
-    public function toArray() {
+    public function toArray()
+    {
         return array(
             "id"            => $this->getId(),
             "name"          => $this->name,
@@ -55,5 +53,4 @@ class User extends \SeeClickFixSDK\Core\BaseObjectAbstract {
             "avatar"        => $this->getAvatar('square_100x100')
         );
     }
-
 }

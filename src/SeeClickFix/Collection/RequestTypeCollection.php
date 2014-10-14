@@ -1,11 +1,11 @@
-<?php namespace SeeClickFixSDK\Collection;
+<?php namespace SeeClickFix\Collection;
 
 /**
  * Request Type Collection
  *
  * Holds a collection of request types
  */
-class RequestTypeCollection extends \SeeClickFixSDK\Collection\CollectionAbstract {
+class RequestTypeCollection extends \SeeClickFix\Collection\CollectionAbstract {
 
     /**
      * Request Type IDs
@@ -18,11 +18,10 @@ class RequestTypeCollection extends \SeeClickFixSDK\Collection\CollectionAbstrac
     /**
      * Constructor
      *
-     * @param StdClass $raw_data Object's data
-     * @param \SeeClickFixSDK\Core\Proxy $proxy Object's proxy
-     * @access public
+     * @param object $raw_data Object's data
+     * @param \SeeClickFix\Core\Proxy $proxy Object's proxy
      */
-    public function __construct( $raw_data, \SeeClickFixSDK\Core\Proxy $proxy = null, $filterString = null )
+    public function __construct( $raw_data, \SeeClickFix\Core\Proxy $proxy = null, $filterString = null )
     {
         // Haystack it!
         $filter = explode(',', $filterString);
@@ -47,19 +46,17 @@ class RequestTypeCollection extends \SeeClickFixSDK\Collection\CollectionAbstrac
     /**
      * Set the collection data
      *
-     * @param StdClass $data
-     * @access public
+     * @param object $data
      */
     public function setData( $data ) {
         $this->data = $data->request_types;
-        $this->convertData( '\SeeClickFixSDK\RequestType' );
+        $this->convertData( '\SeeClickFix\RequestType' );
     }
 
     /**
      * Returns the request type as an array
      *
      * @return array
-     * @access public
      */
     public function toArray()
     {
@@ -69,5 +66,4 @@ class RequestTypeCollection extends \SeeClickFixSDK\Collection\CollectionAbstrac
         }
         return $data;
     }
-
 }

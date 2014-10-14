@@ -1,28 +1,27 @@
-<?php namespace SeeClickFixSDK\Collection;
+<?php namespace SeeClickFix\Collection;
 
 /**
  * Comment Collection
  *
  * Holds a collection of comments
  */
-class CommentCollection extends \SeeClickFixSDK\Collection\CollectionAbstract {
+class CommentCollection extends \SeeClickFix\Collection\CollectionAbstract {
 
     /**
      * Set the collection data
      *
-     * @param StdClass $raw_data
-     * @access public
+     * @param object $data
      */
-    public function setData( $data ) {
+    public function setData($data)
+    {
         $this->data = $data->comments;
-        $this->convertData( '\SeeClickFixSDK\Comment' );
+        $this->convertData( '\SeeClickFix\Comment' );
     }
 
     /**
      * Returns comments as an array
      *
      * @return array
-     * @access public
      */
     public function toArray()
     {
@@ -34,5 +33,4 @@ class CommentCollection extends \SeeClickFixSDK\Collection\CollectionAbstract {
 
         return $data;
     }
-
 }
