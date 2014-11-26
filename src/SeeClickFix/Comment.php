@@ -7,6 +7,11 @@ use \SeeClickFix\User;
  */
 class Comment extends \SeeClickFix\Core\BaseObjectAbstract {
 
+    const STATUS_NONE        = 'comments';
+    const STATUS_CLOSE       = 'close';
+    const STATUS_OPEN        = 'open';
+    const STATUS_ACKNOWLEDGE = 'acknowledge';
+
     /**
      * Cached user
      *
