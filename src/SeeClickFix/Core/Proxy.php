@@ -98,6 +98,16 @@ class Proxy {
     }
 
     /**
+     * Get the access token
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->access_token;
+    }
+
+    /**
      * Set the client ID
      *
      * @param string $client_id the client ID

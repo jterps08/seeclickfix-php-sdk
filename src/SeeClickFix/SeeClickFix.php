@@ -125,6 +125,16 @@ class SeeClickFix extends \SeeClickFix\Core\BaseObjectAbstract
     }
 
     /**
+     * Return the access token
+     *
+     * @return string $access_token
+     */
+    public function getToken()
+    {
+        return $this->proxy->getToken();
+    }
+
+    /**
      * Set the client ID
      *
      * Some API calls can be called with only a Client ID
